@@ -143,6 +143,7 @@ CKEDITOR_CONFIGS = {
             "tableresize",
             "uploadimage",
         ]),
+        "specialChars": ["Ṭ", "ṭ", "Â", "â", "Ê", "ê", "Î", "î", "Ô", "ô", "Û", "û", "Á", "É", "Í", "Ó", "Ú", "À", "È", "Ì", "Ò", "Ù"],
         "toolbar_Custom": [
             {"name": "document", "items": ["Source", "-", "Save", "NewPage", "Preview", "Print", "-", "Templates"]},
             {"name": "clipboard", "items": ["Cut", "Copy", "Paste", "PasteText", "PasteFromWord", "-", "Undo", "Redo"]},
