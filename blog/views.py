@@ -26,10 +26,7 @@ def home(request):
         if articles:
             category_articles[cat] = articles
 
-    hero_articles = [featured] if featured else []
-    for a in latest:
-        if a.id != getattr(featured, 'id', None) and len(hero_articles) < 4:
-            hero_articles.append(a)
+    hero_articles = list(base_qs.order_by("-published_at")[:5])
 
     context = {
         "featured_article": featured,
