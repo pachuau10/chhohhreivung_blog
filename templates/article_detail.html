@@ -69,16 +69,6 @@
                     {% endfor %}
                 </div>
 
-                <div class="author-card">
-                    <div class="author-card-avatar">
-                        {{ article.author.get_full_name|default:article.author.username|first|upper }}
-                    </div>
-                    <div class="author-card-info">
-                        <div class="author-card-name">{{ article.author.get_full_name|default:article.author.username }}</div>
-                        <div class="author-card-bio">Staff writer at Chhohreivung covering technology news in Mizo language.</div>
-                    </div>
-                </div>
-
                 <nav class="article-nav">
                     {% if prev_article %}
                     <a href="{{ prev_article.get_absolute_url }}" class="article-nav-link prev">

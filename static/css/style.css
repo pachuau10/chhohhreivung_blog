@@ -940,30 +940,32 @@ input, textarea {
     align-items: center;
     justify-content: center;
     gap: 5px;
-    padding: 7px 14px;
+    padding: 6px 12px;
     border-radius: 8px;
     font-size: 0.82rem;
-    font-weight: 600;
-    color: #fff;
+    font-weight: 500;
+    color: var(--text-secondary);
     text-decoration: none;
     transition: all 0.2s ease;
     line-height: 1;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
 }
 
 .share-pill:hover {
-    transform: translateY(-1px);
     color: #fff;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    transform: translateY(-1px);
 }
 
-.share-pill-facebook { background: #1877F2; }
-.share-pill-twitter { background: #000; }
-.share-pill-linkedin { background: #0A66C2; }
-.share-pill-whatsapp { background: #25D366; }
+.share-pill-facebook { background: var(--bg-secondary); border-color: var(--border); }
+.share-pill-facebook:hover { background: #1877F2; border-color: #1877F2; }
+.share-pill-twitter { background: var(--bg-secondary); border-color: var(--border); }
+.share-pill-twitter:hover { background: #000; border-color: #000; }
+.share-pill-linkedin { background: var(--bg-secondary); border-color: var(--border); }
+.share-pill-linkedin:hover { background: #0A66C2; border-color: #0A66C2; }
+.share-pill-whatsapp { background: var(--bg-secondary); border-color: var(--border); }
+.share-pill-whatsapp:hover { background: #25D366; border-color: #25D366; }
 .share-pill-copy {
-    background: var(--bg-secondary);
-    color: var(--text-secondary);
-    border: 1px solid var(--border);
     cursor: pointer;
     font-family: inherit;
     font-size: 0.82rem;
@@ -971,7 +973,6 @@ input, textarea {
 
 .share-pill-copy:hover {
     background: var(--border);
-    color: var(--text-primary);
 }
 
 .share-pill-copy.copied {
@@ -1075,6 +1076,12 @@ input, textarea {
     margin-bottom: 20px;
     padding-bottom: 12px;
     border-bottom: 1px solid var(--border);
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.article-toolbar:hover {
+    opacity: 1;
 }
 
 .font-size-controls {
@@ -1128,8 +1135,9 @@ input, textarea {
 /* --- Article Body --- */
 .article-body {
     font-size: 1.2rem;
-    line-height: 1.85;
+    line-height: 1.9;
     color: var(--text-primary);
+    letter-spacing: 0.005em;
 }
 
 .article-body p {
@@ -1347,71 +1355,6 @@ input, textarea {
     color: #fff;
     transform: translateY(-1px);
     border-color: var(--primary);
-}
-
-/* --- Author Card --- */
-.author-card {
-    display: flex;
-    gap: 18px;
-    padding: 22px;
-    margin-top: 32px;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    box-shadow: var(--shadow-sm);
-    transition: box-shadow 0.2s ease;
-}
-
-.author-card:hover {
-    box-shadow: var(--shadow-md);
-}
-
-.author-card-avatar {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary), #6366f1);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 1.3rem;
-    flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(var(--primary-rgb), 0.2);
-}
-
-.author-card-info {
-    flex: 1;
-}
-
-.author-card-name {
-    font-size: 1.05rem;
-    font-weight: 700;
-    margin-bottom: 4px;
-    color: var(--text-primary);
-}
-
-.author-card-bio {
-    font-size: 0.88rem;
-    color: var(--text-secondary);
-    line-height: 1.5;
-    margin-bottom: 10px;
-}
-
-.author-card .author-social-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 0.82rem;
-    color: var(--primary);
-    text-decoration: none;
-    font-weight: 500;
-    transition: opacity 0.2s ease;
-}
-
-.author-card .author-social-link:hover {
-    opacity: 0.75;
 }
 
 /* --- Prev/Next Navigation --- */
@@ -1880,10 +1823,6 @@ input, textarea {
     }
     .toc-card {
         position: static;
-    }
-    .author-card {
-        flex-direction: column;
-        align-items: flex-start;
     }
     .back-to-top {
         bottom: 20px;
