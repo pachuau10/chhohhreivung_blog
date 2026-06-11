@@ -1,0 +1,21 @@
+{% if articles.has_other_pages %}
+<nav class="pagination" aria-label="Pagination">
+    <ul class="pagination-list">
+        {% if articles.has_previous %}
+        <li><a href="?page={{ articles.previous_page_number }}" class="pagination-link prev" aria-label="Previous page">&laquo; Previous</a></li>
+        {% endif %}
+
+        {% for num in articles.paginator.page_range %}
+            {% if articles.number == num %}
+            <li><span class="pagination-link current">{{ num }}</span></li>
+            {% elif num > articles.number|add:'-3' and num < articles.number|add:'3' %}
+            <li><a href="?page={{ num }}" class="pagination-link">{{ num }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if articles.has_next %}
+        <li><a href="?page={{ articles.next_page_number }}" class="pagination-link next" aria-label="Next page">Next &raquo;</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}

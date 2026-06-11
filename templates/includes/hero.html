@@ -1,0 +1,47 @@
+{% load static %}
+{% if hero_articles %}
+<section class="hero-section">
+  <div class="hero-container">
+    <div class="carousel" id="heroCarousel">
+      {% for article in hero_articles %}
+      <a href="{{ article.get_absolute_url }}" class="slide {% if forloop.first %}active{% endif %}">
+        <div class="slide-bg">
+          {% if article.featured_image %}
+          <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+          {% else %}
+          <div class="slide-fallback">{{ article.category.name|default:"Featured" }}</div>
+          {% endif %}
+          <div class="slide-overlay"></div>
+        </div>
+        <div class="slide-content">
+          <span class="slide-badge">{{ article.category.name }}</span>
+          <h2 class="slide-title">{{ article.title }}</h2>
+          <p class="slide-excerpt">{{ article.excerpt|truncatewords:18 }}</p>
+          <div class="slide-meta">
+            <span>{{ article.author.get_full_name|default:article.author.username }}</span>
+            <span class="meta-sep">·</span>
+            <span>{{ article.published_at|date:"M d, Y" }}</span>
+            <span class="meta-sep">·</span>
+            <span>{{ article.reading_time }} min read</span>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+
+      {% if hero_articles|length > 1 %}
+      <button class="carousel-arrow carousel-arrow--prev" id="carouselPrev" aria-label="Previous">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="carousel-arrow carousel-arrow--next" id="carouselNext" aria-label="Next">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <div class="carousel-dots" id="carouselDots">
+        {% for article in hero_articles %}
+        <button class="dot {% if forloop.first %}active{% endif %}" data-index="{{ forloop.counter0 }}" aria-label="Slide {{ forloop.counter }}"></button>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}

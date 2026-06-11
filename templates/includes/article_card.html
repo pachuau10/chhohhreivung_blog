@@ -1,0 +1,23 @@
+{% load static %}
+<article class="article-card">
+    <a href="{{ article.get_absolute_url }}" class="article-card-link">
+        <div class="article-card-image">
+            {% if article.featured_image %}
+            <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" loading="lazy">
+            {% else %}
+            <div class="card-image-placeholder">
+                <span>{{ article.category.name|default:"Tech" }}</span>
+            </div>
+            {% endif %}
+        </div>
+        <div class="article-card-body">
+            <span class="article-card-category">{{ article.category.name|default:"Technology" }}</span>
+            <h3 class="article-card-title">{{ article.title }}</h3>
+            <p class="article-card-excerpt">{{ article.excerpt|truncatewords:15 }}</p>
+            <div class="article-card-meta">
+                <span class="article-card-date">{{ article.published_at|date:"M d, Y" }}</span>
+                <span class="article-card-read">{{ article.reading_time }} min read</span>
+            </div>
+        </div>
+    </a>
+</article>

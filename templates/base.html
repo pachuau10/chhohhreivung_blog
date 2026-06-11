@@ -1,0 +1,78 @@
+{% load static %}
+{% load blog_tags %}
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ meta_title|default:"Chhohreivung - Mizo Tech News" }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{{ meta_description|default:'Latest technology news in Mizo language. Smartphones, AI, Internet, Apps, Reviews and more.' }}{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}{{ meta_keywords|default:'Mizo tech news, technology, smartphones, AI, internet, apps, reviews, Chhohreivung' }}{% endblock %}">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}">
+
+    {% og_tags %}
+    {% block extra_meta %}{% endblock %}
+
+    <link rel="alternate" type="application/rss+xml" title="Chhohreivung RSS Feed" href="{% url 'rss_feed' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+
+    <link rel="icon" type="image/x-icon" href="{% static 'chhohreivung_favicon.ico' %}">
+
+    {% organization_schema %}
+    {% block schema %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    <div class="site-wrapper">
+        {% include "includes/header.html" %}
+
+        <main class="main-content">
+            {% block content %}{% endblock %}
+        </main>
+
+        {% include "includes/footer.html" %}
+    </div>
+
+    <div class="search-dropdown" id="searchDropdown">
+        <div class="search-dropdown-inner">
+            <form action="{% url 'search' %}" method="GET" class="search-dropdown-form" autocomplete="off">
+                <svg class="search-dropdown-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" name="q" class="search-dropdown-input" id="searchInput" placeholder="Search articles..." autocomplete="off" aria-label="Search">
+                <button type="button" class="search-dropdown-close" id="searchClose" aria-label="Close search">&times;</button>
+            </form>
+            <div class="search-suggestions" id="searchSuggestions">
+                <div class="suggestions-default">
+                    <span class="suggestions-label">Trending searches</span>
+                    {% for article in trending_articles|slice:":5" %}
+                    <a href="{{ article.get_absolute_url }}" class="suggestion-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <span>{{ article.title|truncatewords:6 }}</span>
+                    </a>
+                    {% endfor %}
+                </div>
+                <div class="suggestions-results" id="suggestionsResults" style="display:none"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cookie-consent" id="cookieConsent" role="dialog" aria-label="Cookie consent">
+        <div class="cookie-consent-inner">
+            <p class="cookie-consent-text">
+                We use cookies to improve your experience and serve personalized ads. By continuing, you agree to our
+                <a href="{% url 'privacy' %}">Privacy Policy</a> and
+                <a href="{% url 'terms' %}">Terms of Service</a>.
+            </p>
+            <button class="cookie-consent-btn" id="cookieConsentBtn">Accept All</button>
+        </div>
+    </div>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

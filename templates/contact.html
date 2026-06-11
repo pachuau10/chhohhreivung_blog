@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Contact Us - Chhohreivung{% endblock %}
+{% block meta_description %}Get in touch with Chhohreivung. Send us your news tips, feedback, or inquiries.{% endblock %}
+
+{% block content %}
+<section class="page-section static-page">
+    <div class="container">
+        {% include "includes/breadcrumb.html" with page_title="Contact Us" %}
+
+        <div class="page-header">
+            <h1 class="page-title">Contact Us</h1>
+        </div>
+
+        <div class="static-content">
+            <div class="content-card contact-form">
+                <p class="contact-form-intro">Have a news tip, feedback, or inquiry? Send us a message and we'll get back to you.</p>
+
+                {% if messages %}
+                <div class="contact-messages" style="margin-bottom: 20px;">
+                    {% for message in messages %}
+                    <div class="contact-alert contact-alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <form method="POST" action="{% url 'contact' %}">
+                    {% csrf_token %}
+                    <div class="contact-form-group">
+                        <input type="text" name="name" class="contact-input" placeholder="Your name" required value="{{ form.name.value|default:'' }}">
+                        {% if form.name.errors %}<small class="contact-error">{{ form.name.errors.0 }}</small>{% endif %}
+                    </div>
+                    <div class="contact-form-group">
+                        <input type="email" name="email" class="contact-input" placeholder="Your email" required value="{{ form.email.value|default:'' }}">
+                        {% if form.email.errors %}<small class="contact-error">{{ form.email.errors.0 }}</small>{% endif %}
+                    </div>
+                    <div class="contact-form-group">
+                        <input type="text" name="subject" class="contact-input" placeholder="Subject" required value="{{ form.subject.value|default:'' }}">
+                        {% if form.subject.errors %}<small class="contact-error">{{ form.subject.errors.0 }}</small>{% endif %}
+                    </div>
+                    <div class="contact-form-group">
+                        <textarea name="message" class="contact-textarea" placeholder="Your message" required rows="5">{{ form.message.value|default:'' }}</textarea>
+                        {% if form.message.errors %}<small class="contact-error">{{ form.message.errors.0 }}</small>{% endif %}
+                    </div>
+                    <button type="submit" class="contact-submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

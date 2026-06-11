@@ -1,0 +1,26 @@
+{% if results %}
+<div class="suggestions-group">
+    <span class="suggestions-label">Results ({{ results|length }})</span>
+    {% for article in results %}
+    <a href="{{ article.get_absolute_url }}" class="suggestion-item suggestion-result">
+        <div class="suggestion-img">
+            {% if article.featured_image %}
+            <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" loading="lazy">
+            {% else %}
+            <div class="suggestion-img-fallback">{{ article.category.name|first }}</div>
+            {% endif %}
+        </div>
+        <div class="suggestion-info">
+            <span class="suggestion-title">{{ article.title }}</span>
+            <span class="suggestion-meta">{{ article.category.name }} · {{ article.published_at|date:"M d" }}</span>
+        </div>
+    </a>
+    {% endfor %}
+    <a href="{% url 'search' %}?q={{ query }}" class="suggestion-viewall">View all results &rarr;</a>
+</div>
+{% else %}
+<div class="suggestions-empty">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <p>No articles found for "{{ query }}"</p>
+</div>
+{% endif %}

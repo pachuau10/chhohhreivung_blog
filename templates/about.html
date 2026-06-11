@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}About Us - Chhohreivung{% endblock %}
+{% block meta_description %}Learn about Chhohreivung - Mizo language technology news portal bringing latest tech updates, reviews, and tutorials to the Mizo community worldwide.{% endblock %}
+
+{% block content %}
+<section class="page-section static-page">
+    <div class="container">
+        {% include "includes/breadcrumb.html" with page_title="About Us" %}
+
+        <div class="page-header">
+            <h1 class="page-title">About Chhohreivung</h1>
+        </div>
+
+        <div class="static-content">
+            <div class="content-card">
+                <h2>Our Mission</h2>
+                <p>Chhohreivung is a Mizo language technology news portal dedicated to bringing the latest technology news, reviews, and updates to the Mizo-speaking community worldwide. We believe that technology knowledge should be accessible to everyone, regardless of language.</p>
+
+                <h2>Our Story</h2>
+                <p>Founded with a vision to bridge the digital divide, Chhohreivung was created to provide high-quality technology content in the Mizo language. We recognized that most technology news was available only in English and other major languages, leaving the Mizo community underserved. Today, we strive to be the leading source of Mizo tech news.</p>
+
+                <h2>What We Cover</h2>
+                <ul>
+                    <li>Artificial Intelligence & Machine Learning</li>
+                    <li>Smartphones & Mobile Technology</li>
+                    <li>Internet & Digital Culture</li>
+                    <li>Apps & Software Reviews</li>
+                    <li>Tech How-To Guides & Tutorials</li>
+                    <li>Cybersecurity & Privacy</li>
+                    <li>Gaming & Entertainment Tech</li>
+                    <li>Startups & Technology Business</li>
+                </ul>
+
+                <h2>Our Vision</h2>
+                <p>To make technology accessible and understandable for the Mizo community through high-quality content in our native language. We envision a future where every Mizo speaker can stay informed about the latest technological developments without language barriers.</p>
+
+                <h2>Our Values</h2>
+                <ul>
+                    <li><strong>Accuracy:</strong> We fact-check and verify information before publishing.</li>
+                    <li><strong>Accessibility:</strong> We explain complex topics in simple, clear Mizo language.</li>
+                    <li><strong>Independence:</strong> Our reviews and opinions are unbiased and honest.</li>
+                    <li><strong>Community:</strong> We prioritize the needs and interests of the Mizo community.</li>
+                </ul>
+
+                <h2>Contact Us</h2>
+                <p>We love hearing from our readers. Whether you have a news tip, feedback, or just want to say hello, reach out to us through our <a href="{% url 'contact' %}">Contact page</a> or email us at contact@chhohreivung.com.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

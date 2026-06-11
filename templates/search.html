@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Search: {{ query }} - Chhohreivung{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">
+                {% if query %}
+                Search Results for "{{ query }}"
+                {% else %}
+                Search Articles
+                {% endif %}
+            </h1>
+        </div>
+
+        <div class="search-page-form">
+            <form action="{% url 'search' %}" method="GET" class="search-form-large">
+                <input type="text" name="q" value="{{ query }}" class="search-form-input" placeholder="Search articles..." aria-label="Search">
+                <button type="submit" class="search-form-btn">Search</button>
+            </form>
+        </div>
+
+        <div class="content-layout">
+            <div class="content-main">
+                {% if query %}
+                    {% if results %}
+                    <p class="result-count">{{ results|length }} result{{ results|pluralize }} found</p>
+                    <div class="news-feed">
+                        {% for article in results %}
+                        <article class="news-row">
+                            <a href="{{ article.get_absolute_url }}" class="news-row-image">
+                                {% if article.featured_image %}
+                                <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" loading="lazy">
+                                {% else %}
+                                <div class="news-row-fallback">{{ article.category.name|first }}</div>
+                                {% endif %}
+                            </a>
+                            <div class="news-row-content">
+                                <span class="news-row-category">{{ article.category.name }}</span>
+                                <h2 class="news-row-title">
+                                    <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+                                </h2>
+                                <p class="news-row-excerpt">{{ article.excerpt|truncatechars:140 }}</p>
+                                <div class="news-row-meta">
+                                    <span>{{ article.published_at|date:"M d, Y" }}</span>
+                                    <span class="meta-sep">·</span>
+                                    <span>{{ article.reading_time }} min read</span>
+                                </div>
+                            </div>
+                        </article>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <h2>No results found</h2>
+                        <p>Try different keywords or browse categories.</p>
+                    </div>
+                    {% endif %}
+                {% else %}
+                <div class="empty-state">
+                    <h2>Search Chhohreivung</h2>
+                    <p>Enter a keyword to search articles.</p>
+                </div>
+                {% endif %}
+            </div>
+            <aside class="content-sidebar">
+                {% include "includes/sidebar.html" %}
+            </aside>
+        </div>
+    </div>
+</section>
+{% endblock %}

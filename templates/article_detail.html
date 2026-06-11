@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% load static %}
+{% load blog_tags %}
+
+{% block title %}{{ article.meta_title|default:article.title }} - Chhohreivung{% endblock %}
+{% block meta_description %}{{ article.meta_description|default:article.excerpt }}{% endblock %}
+{% block meta_keywords %}{{ article.meta_keywords }}{% endblock %}
+{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}
+
+{% block extra_meta %}
+{% og_tags article=article %}
+{% endblock %}
+
+{% block schema %}
+{% article_schema article %}
+{% endblock %}
+
+{% block content %}
+<div class="reading-progress" id="readingProgress"></div>
+
+<article class="article-page">
+    <div class="article-container">
+        <div class="article-layout">
+            <div class="article-content">
+                <div class="article-header-inner">
+                    <span class="article-category-badge">{{ article.category.name|default:"Technology" }}</span>
+                    <h1 class="article-title">{{ article.title }}</h1>
+                    <p class="article-excerpt">{{ article.excerpt }}</p>
+
+                    <div class="article-meta-row">
+                        <div class="article-author-meta">
+                            <div class="author-avatar">
+                                {{ article.author.get_full_name|default:article.author.username|first|upper }}
+                            </div>
+                            <div class="author-meta-info">
+                                <span class="author-meta-name">{{ article.author.get_full_name|default:article.author.username }}</span>
+                                <span class="author-meta-date">{{ article.published_at|date:"F d, Y" }} &middot; {{ article.reading_time }} min read</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% if article.featured_image %}
+                <div class="article-featured-image">
+                    <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" loading="eager">
+                </div>
+                {% endif %}
+
+                <div class="article-share-bar">
+                    <span class="share-label">Share</span>
+                    {% include "includes/social_share.html" %}
+                </div>
+                <div class="article-toolbar">
+                    <div class="font-size-controls" id="fontSizeControls">
+                        <span class="toolbar-label">Font:</span>
+                        <button class="font-size-btn active" data-size="default" aria-label="Default font size">A</button>
+                        <button class="font-size-btn" data-size="large" aria-label="Large font size">A<sup>+</sup></button>
+                        <button class="font-size-btn" data-size="xlarge" aria-label="Extra large font size">A<sup>++</sup></button>
+                    </div>
+                </div>
+
+                <div class="article-body" id="articleBody">
+                    {{ article.content|safe }}
+                </div>
+
+                <div class="article-tags">
+                    {% for tag in article.tags.all %}
+                    <a href="{% url 'search' %}?q={{ tag.name }}" class="tag-link">#{{ tag.name }}</a>
+                    {% endfor %}
+                </div>
+
+                <div class="author-card">
+                    <div class="author-card-avatar">
+                        {{ article.author.get_full_name|default:article.author.username|first|upper }}
+                    </div>
+                    <div class="author-card-info">
+                        <div class="author-card-name">{{ article.author.get_full_name|default:article.author.username }}</div>
+                        <div class="author-card-bio">Staff writer at Chhohreivung covering technology news in Mizo language.</div>
+                    </div>
+                </div>
+
+                <nav class="article-nav">
+                    {% if prev_article %}
+                    <a href="{{ prev_article.get_absolute_url }}" class="article-nav-link prev">
+                        <span class="article-nav-label">&larr; Previous</span>
+                        <span class="article-nav-title">{{ prev_article.title }}</span>
+                    </a>
+                    {% else %}
+                    <div class="article-nav-empty prev">
+                        <span class="article-nav-label">&larr; Previous</span>
+                        <span class="article-nav-label" style="opacity:0.4">No older articles</span>
+                    </div>
+                    {% endif %}
+
+                    {% if next_article %}
+                    <a href="{{ next_article.get_absolute_url }}" class="article-nav-link next">
+                        <span class="article-nav-label">Next &rarr;</span>
+                        <span class="article-nav-title">{{ next_article.title }}</span>
+                    </a>
+                    {% else %}
+                    <div class="article-nav-empty next" style="text-align:right">
+                        <span class="article-nav-label">Next &rarr;</span>
+                        <span class="article-nav-label" style="opacity:0.4">No newer articles</span>
+                    </div>
+                    {% endif %}
+                </nav>
+            </div>
+
+            <aside class="article-sidebar">
+                <div class="toc-card" id="tableOfContents" style="display:none">
+                    <div class="toc-card-title">Table of Contents</div>
+                    <ul class="toc-list" id="tocList"></ul>
+                </div>
+                {% include "includes/sidebar.html" %}
+            </aside>
+        </div>
+    </div>
+</article>
+
+{% if related_articles %}
+<section class="related-section">
+    <div class="article-container">
+        <div class="section-header">
+            <h2 class="related-title">More from Chhohreivung</h2>
+        </div>
+        <div class="related-grid">
+            {% for related in related_articles|slice:":3" %}
+            <a href="{{ related.get_absolute_url }}" class="related-card">
+                <div class="related-card-thumb">
+                    {% if related.featured_image %}
+                    <img src="{{ related.featured_image.url }}" alt="{{ related.title }}" loading="lazy">
+                    {% else %}
+                    <img src="{% static 'images/placeholder.svg' %}" alt="{{ related.title }}" loading="lazy">
+                    {% endif %}
+                </div>
+                <div class="related-card-body">
+                    <span class="related-card-category">{{ related.category.name|default:"Tech" }}</span>
+                    <h3 class="related-card-title">{{ related.title }}</h3>
+                    <span class="related-card-meta">{{ related.published_at|date:"M d, Y" }} &middot; {{ related.reading_time }} min read</span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+    <img class="lightbox-image" id="lightboxImage" alt="">
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+</div>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+{% endblock %}

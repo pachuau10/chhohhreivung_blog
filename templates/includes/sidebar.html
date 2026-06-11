@@ -1,0 +1,52 @@
+{% load static %}
+<div class="sidebar">
+    {% if popular_articles %}
+    <div class="sidebar-card">
+        <h3 class="sidebar-card-title">Trending Now</h3>
+        {% for article in popular_articles %}
+        <a href="{{ article.get_absolute_url }}" class="sidebar-article-card">
+            <div class="sidebar-card-thumb">
+                {% if article.featured_image %}
+                <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" loading="lazy">
+                {% else %}
+                <img src="{% static 'images/placeholder.svg' %}" alt="{{ article.title }}" loading="lazy">
+                {% endif %}
+            </div>
+            <div class="sidebar-card-content">
+                <span class="sidebar-card-category">{{ article.category.name|default:"Tech" }}</span>
+                <h4 class="sidebar-card-article-title">{{ article.title }}</h4>
+                <span class="sidebar-card-date">{{ article.published_at|date:"M d, Y" }}</span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if trending_articles and not popular_articles %}
+    <div class="sidebar-card">
+        <h3 class="sidebar-card-title">Trending Now</h3>
+        {% for article in trending_articles %}
+        <a href="{{ article.get_absolute_url }}" class="sidebar-article-card">
+            <div class="sidebar-card-thumb">
+                {% if article.featured_image %}
+                <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" loading="lazy">
+                {% else %}
+                <img src="{% static 'images/placeholder.svg' %}" alt="{{ article.title }}" loading="lazy">
+                {% endif %}
+            </div>
+            <div class="sidebar-card-content">
+                <span class="sidebar-card-category">{{ article.category.name|default:"Tech" }}</span>
+                <h4 class="sidebar-card-article-title">{{ article.title }}</h4>
+                <span class="sidebar-card-date">{{ article.published_at|date:"M d, Y" }}</span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="sidebar-card sidebar-newsletter">
+        <h3 class="sidebar-card-title">Stay Updated</h3>
+        <p class="sidebar-newsletter-text">Get the latest tech news delivered to your inbox.</p>
+        <a href="{% url 'contact' %}" class="sidebar-newsletter-btn">Subscribe</a>
+    </div>
+</div>

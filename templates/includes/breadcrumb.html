@@ -1,0 +1,18 @@
+{% load blog_tags %}
+{% breadcrumb_schema %}
+<nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol class="breadcrumb-list">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        {% if category %}
+        <li class="breadcrumb-item"><a href="{% url 'category' category.slug %}">{{ category.name }}</a></li>
+        {% elif article %}
+        <li class="breadcrumb-item"><a href="{% url 'category' article.category.slug %}">{{ article.category.name }}</a></li>
+        {% endif %}
+        {% if article %}
+        <li class="breadcrumb-item active" aria-current="page">{{ article.title|truncatewords:6 }}</li>
+        {% endif %}
+        {% if page_title and not article %}
+        <li class="breadcrumb-item active" aria-current="page">{{ page_title }}</li>
+        {% endif %}
+    </ol>
+</nav>

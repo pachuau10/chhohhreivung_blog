@@ -1,0 +1,194 @@
+from django import template
+from django.utils.html import format_html
+import re
+
+register = template.Library()
+
+
+@register.filter
+def reading_time(content):
+    word_count = len(re.findall(r"\w+", content))
+    minutes = max(1, round(word_count / 200))
+    return f"{minutes} min read"
+
+
+@register.filter
+def truncate_words(value, arg):
+    try:
+        limit = int(arg)
+    except ValueError:
+        return value
+    words = value.split()
+    if len(words) > limit:
+        return " ".join(words[:limit]) + "..."
+    return value
+
+
+@register.filter
+def date_format(value):
+    from django.utils import timezone
+    now = timezone.now()
+    diff = now - value
+
+    if diff.days == 0:
+        if diff.seconds < 3600:
+            minutes = diff.seconds // 60
+            return f"{minutes} min ago" if minutes > 0 else "Just now"
+        hours = diff.seconds // 3600
+        return f"{hours} hour ago" if hours == 1 else f"{hours} hours ago"
+    elif diff.days == 1:
+        return "Yesterday"
+    elif diff.days < 7:
+        return f"{diff.days} days ago"
+    else:
+        return value.strftime("%b %d, %Y")
+
+
+@register.simple_tag(takes_context=True)
+def og_tags(context, article=None):
+    request = context.get("request")
+    if not request:
+        return ""
+
+    default_image = request.build_absolute_uri(
+        context.get("STATIC_URL", "/static/") + "og_image.png"
+    )
+
+    if article:
+        title = article.meta_title or article.title
+        description = article.meta_description or article.excerpt or article.title
+        url = request.build_absolute_uri(article.get_absolute_url())
+        image = default_image
+        if article.featured_image:
+            image = request.build_absolute_uri(article.featured_image.url)
+    else:
+        title = context.get("meta_title", "Chhohreivung - Mizo Tech News")
+        description = context.get(
+            "meta_description", "Latest technology news in Mizo language"
+        )
+        url = request.build_absolute_uri(request.path)
+        image = default_image
+
+    tags = f"""
+    <meta property="og:title" content="{title}" />
+    <meta property="og:description" content="{description}" />
+    <meta property="og:url" content="{url}" />
+    <meta property="og:type" content="{"article" if article else "website"}" />
+    <meta property="og:site_name" content="Chhohreivung" />
+    <meta property="og:locale" content="en_US" />
+    """
+    if image:
+        tags += f'<meta property="og:image" content="{image}" />\n'
+        tags += f'<meta property="og:image:width" content="1200" />\n'
+        tags += f'<meta property="og:image:height" content="630" />\n'
+
+    tags += f"""
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{title}" />
+    <meta name="twitter:description" content="{description}" />
+    """
+    if image:
+        tags += f'<meta name="twitter:image" content="{image}" />\n'
+
+    return format_html(tags)
+
+
+@register.simple_tag(takes_context=True)
+def article_schema(context, article):
+    request = context.get("request")
+    if not request:
+        return ""
+
+    url = request.build_absolute_uri(article.get_absolute_url())
+    image_url = ""
+    if article.featured_image:
+        image_url = request.build_absolute_uri(article.featured_image.url)
+
+    schema = f"""{{
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "headline": "{article.title}",
+    "description": "{article.excerpt or article.title}",
+    "image": "{image_url}",
+    "datePublished": "{article.published_at.isoformat() if article.published_at else ''}",
+    "dateModified": "{article.updated_at.isoformat()}",
+    "author": {{
+        "@type": "Person",
+        "name": "{article.author.get_full_name() or article.author.username if article.author else 'Chhohreivung'}"
+    }},
+    "publisher": {{
+        "@type": "Organization",
+        "name": "Chhohreivung",
+        "logo": {{
+            "@type": "ImageObject",
+            "url": "{request.build_absolute_uri('/static/images/logo.png')}"
+        }}
+    }},
+    "mainEntityOfPage": {{
+        "@type": "WebPage",
+        "@id": "{url}"
+    }}
+}}"""
+    return format_html(
+        '<script type="application/ld+json">{}</script>', schema
+    )
+
+
+@register.simple_tag(takes_context=True)
+def breadcrumb_schema(context):
+    request = context.get("request")
+    if not request:
+        return ""
+    path = request.path.strip("/").split("/")
+    items = [{"@type": "ListItem", "position": 1, "name": "Home", "item": request.build_absolute_uri("/")}]
+
+    position = 2
+    current_path = ""
+    for part in path:
+        if not part:
+            continue
+        current_path += f"/{part}"
+        items.append({
+            "@type": "ListItem",
+            "position": position,
+            "name": part.replace("-", " ").title(),
+            "item": request.build_absolute_uri(current_path),
+        })
+        position += 1
+
+    import json
+    schema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": items,
+    }
+    return format_html(
+        '<script type="application/ld+json">{}</script>',
+        json.dumps(schema, ensure_ascii=False)
+    )
+
+
+@register.simple_tag
+def organization_schema():
+    schema = """{
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Chhohreivung",
+    "url": "https://chhohreivung.com",
+    "logo": "https://chhohreivung.com/static/images/logo.png",
+    "description": "Mizo Tech News - Technology news in Mizo language",
+    "foundingDate": "2024",
+    "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "general",
+        "email": "contact@chhohreivung.com"
+    },
+    "sameAs": [
+        "https://facebook.com/chhohreivung",
+        "https://twitter.com/chhohreivung",
+        "https://instagram.com/chhohreivung"
+    ]
+}"""
+    return format_html(
+        '<script type="application/ld+json">{}</script>', schema
+    )

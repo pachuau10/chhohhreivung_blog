@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Page Not Found - Chhohreivung{% endblock %}
+
+{% block content %}
+<section class="page-section" style="min-height: 60vh; display: flex; align-items: center;">
+    <div class="container" style="text-align: center;">
+        <h1 style="font-size: 5rem; font-weight: 800; color: var(--primary); line-height: 1;">404</h1>
+        <p style="font-size: 1.25rem; color: var(--text-secondary); margin: 16px 0 32px;">The page you're looking for doesn't exist or has been moved.</p>
+        <a href="/" class="load-more-btn" style="display: inline-flex;">Go Home</a>
+    </div>
+</section>
+{% endblock %}

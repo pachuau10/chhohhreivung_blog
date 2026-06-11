@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ category.name }} - Chhohreivung{% endblock %}
+{% block meta_description %}{{ category.description|default:"Latest "|add:category.name|add:" news in Mizo language" }}{% endblock %}
+
+{% block content %}
+<section class="category-page">
+    <div class="container">
+        <div class="category-header">
+            <h1 class="category-title">{{ category.name }}</h1>
+            {% if category.description %}
+            <p class="category-description">{{ category.description }}</p>
+            {% endif %}
+            <span class="category-article-count">{{ articles.paginator.count }} Article{{ articles.paginator.count|pluralize }}</span>
+        </div>
+
+        {% if articles and articles.number == 1 %}
+        {% with featured=articles.0 %}
+        <a href="{{ featured.get_absolute_url }}" class="featured-article">
+            <div class="featured-thumb">
+                {% if featured.featured_image %}
+                <img src="{{ featured.featured_image.url }}" alt="{{ featured.title }}" loading="eager">
+                {% else %}
+                <div class="featured-fallback">{{ category.name|first }}</div>
+                {% endif %}
+            </div>
+            <div class="featured-content">
+                <span class="featured-category">{{ category.name }}</span>
+                <h2 class="featured-title">{{ featured.title }}</h2>
+                <p class="featured-excerpt">{{ featured.excerpt|truncatechars:160 }}</p>
+                <div class="featured-meta">
+                    <span>{{ featured.published_at|date:"M d, Y" }}</span>
+                    <span class="meta-sep">&middot;</span>
+                    <span>{{ featured.reading_time }} min read</span>
+                </div>
+                <span class="featured-read-more">Read More &rarr;</span>
+            </div>
+        </a>
+        {% endwith %}
+        {% endif %}
+
+        <div class="content-layout">
+            <div class="content-main">
+                {% if articles %}
+                {% if articles.number > 1 or articles.paginator.count > 1 %}
+                <div class="category-article-grid">
+                    {% for article in articles %}
+                    {% if articles.number == 1 and forloop.first %}
+                    {% else %}
+                    <article class="category-card">
+                        <a href="{{ article.get_absolute_url }}" class="category-card-link">
+                            <div class="category-card-thumb">
+                                {% if article.featured_image %}
+                                <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" loading="lazy">
+                                {% else %}
+                                <div class="category-card-fallback">{{ article.category.name|first }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="category-card-body">
+                                <span class="category-card-category">{{ article.category.name }}</span>
+                                <h3 class="category-card-title">{{ article.title }}</h3>
+                                <p class="category-card-excerpt">{{ article.excerpt|truncatechars:120 }}</p>
+                                <div class="category-card-meta">
+                                    <span>{{ article.published_at|date:"M d, Y" }}</span>
+                                    <span class="meta-sep">&middot;</span>
+                                    <span>{{ article.reading_time }} min read</span>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="category-pagination">
+                    {% if articles.has_previous %}
+                    <a href="?page={{ articles.previous_page_number }}" class="pagination-btn">&larr; Previous</a>
+                    {% endif %}
+                    <span class="pagination-info">Page {{ articles.number }} of {{ articles.paginator.num_pages }}</span>
+                    {% if articles.has_next %}
+                    <a href="?page={{ articles.next_page_number }}" class="pagination-btn">Next &rarr;</a>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <h2>No articles yet</h2>
+                    <p>Articles in this category will appear here.</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <aside class="content-sidebar">
+                {% include "includes/sidebar.html" %}
+            </aside>
+        </div>
+    </div>
+</section>
+{% endblock %}
