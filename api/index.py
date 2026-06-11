@@ -1,72 +1,81 @@
 import os
 import sys
-from django.core.wsgi import get_wsgi_application
+from http.server import BaseHTTPRequestHandler
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "chhohreivung.settings")
 
-app = get_wsgi_application()
+import django
+django.setup()
 
-def handler(event, context):
-    from urllib.parse import urlparse, unquote
-    from io import BytesIO
-    from django.http import HttpRequest, HttpResponse
-    from django.core.handlers.wsgi import WSGIHandler
-    from django.conf import settings
+from django.core.wsgi import get_wsgi_application
+from django.http import HttpResponse
+from io import BytesIO
 
-    method = event.get("httpMethod", "GET")
-    path = event.get("path", "/")
-    query = event.get("queryStringParameters") or {}
-    headers = event.get("headers") or {}
-    body = event.get("body") or ""
-    is_base64 = event.get("isBase64Encoded", False)
+wsgi_app = get_wsgi_application()
 
-    if is_base64:
-        import base64
-        body = base64.b64decode(body)
-    else:
-        body = body.encode("utf-8") if isinstance(body, str) else body
 
-    environ = {
-        "REQUEST_METHOD": method,
-        "PATH_INFO": unquote(path),
-        "QUERY_STRING": "&".join(f"{k}={v}" for k, v in query.items()) if query else "",
-        "SERVER_NAME": headers.get("host", "localhost"),
-        "SERVER_PORT": "443",
-        "SERVER_PROTOCOL": "HTTP/1.1",
-        "wsgi.version": (1, 0),
-        "wsgi.url_scheme": "https",
-        "wsgi.input": BytesIO(body),
-        "wsgi.errors": sys.stderr,
-        "wsgi.multithread": False,
-        "wsgi.multiprocess": False,
-        "wsgi.run_once": False,
-        "HTTP_HOST": headers.get("host", ""),
-        "HTTP_X_FORWARDED_FOR": headers.get("x-forwarded-for", ""),
-        "HTTP_X_FORWARDED_PROTO": "https",
-        "HTTP_USER_AGENT": headers.get("user-agent", ""),
-        "HTTP_ACCEPT": headers.get("accept", "*/*"),
-        "CONTENT_TYPE": headers.get("content-type", ""),
-        "CONTENT_LENGTH": str(len(body)),
-    }
+class handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self._handle_request()
 
-    for key, value in headers.items():
-        wsgi_key = "HTTP_" + key.upper().replace("-", "_")
-        environ[wsgi_key] = value
+    def do_POST(self):
+        self._handle_request()
 
-    response = HttpResponse()
+    def do_PUT(self):
+        self._handle_request()
 
-    def start_response(status, response_headers):
-        status_code = int(status.split(" ")[0])
-        response.status_code = status_code
-        for header, value in response_headers:
-            response[header] = value
+    def do_PATCH(self):
+        self._handle_request()
 
-    result = app(environ, start_response)
-    response.content = b"".join(result)
+    def do_DELETE(self):
+        self._handle_request()
 
-    return {
-        "statusCode": response.status_code,
-        "headers": dict(response.items()),
-        "body": response.content.decode("utf-8", errors="replace"),
-        "isBase64Encoded": False,
-    }
+    def do_HEAD(self):
+        self._handle_request()
+
+    def _handle_request(self):
+        content_length = int(self.headers.get("Content-Length", 0))
+        body = self.rfile.read(content_length) if content_length > 0 else b""
+
+        path_parts = self.path.split("?", 1)
+        path_info = path_parts[0]
+        query_string = path_parts[1] if len(path_parts) > 1 else ""
+
+        environ = {
+            "REQUEST_METHOD": self.command,
+            "PATH_INFO": path_info,
+            "QUERY_STRING": query_string,
+            "SERVER_NAME": self.headers.get("Host", "localhost"),
+            "SERVER_PORT": "443",
+            "SERVER_PROTOCOL": "HTTP/1.1",
+            "wsgi.version": (1, 0),
+            "wsgi.url_scheme": "https",
+            "wsgi.input": BytesIO(body),
+            "wsgi.errors": sys.stderr,
+            "wsgi.multithread": False,
+            "wsgi.multiprocess": False,
+            "wsgi.run_once": False,
+            "HTTP_HOST": self.headers.get("Host", ""),
+        }
+
+        for key, value in self.headers.items():
+            wsgi_key = "HTTP_" + key.upper().replace("-", "_")
+            environ[wsgi_key] = value
+
+        response = {}
+
+        def start_response(status, response_headers):
+            status_code = int(status.split(" ")[0])
+            response["status"] = status_code
+            response["headers"] = {}
+            for header, value in response_headers:
+                response["headers"][header] = value
+
+        result = wsgi_app(environ, start_response)
+        response["body"] = b"".join(result)
+
+        self.send_response(response.get("status", 200))
+        for header, value in response.get("headers", {}).items():
+            self.send_header(header, value)
+        self.end_headers()
+        self.wfile.write(response.get("body", b""))
