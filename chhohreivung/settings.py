@@ -119,10 +119,11 @@ USE_CLOUDINARY = config("USE_CLOUDINARY", default=False, cast=bool)
 
 if USE_CLOUDINARY:
     DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-    MEDIA_URL = f"https://res.cloudinary.com/{config('CLOUDINARY_CLOUD_NAME')}/"
 else:
     DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
-    MEDIA_URL = "/media/"
+
+MEDIA_URL = "/media/"
+if not USE_CLOUDINARY:
     MEDIA_ROOT = BASE_DIR / "media"
 
 STORAGES = {
