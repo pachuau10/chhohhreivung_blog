@@ -66,6 +66,15 @@
       {{ form.status }}
       <input type="hidden" name="slug" id="id_slug" value="{{ form.slug.value|default:'' }}">
 
+      <div class="writer-field-group writer-slug-group">
+        <label class="writer-label-sm">URL Slug</label>
+        <div class="writer-slug-preview">
+          <span class="writer-slug-base">{{ request.get_host }}/news/</span>
+          <input type="text" id="id_slug_visible" class="writer-input writer-slug-input" value="{{ form.slug.value|default:'' }}" placeholder="auto-generated-from-title">
+        </div>
+        <p class="writer-field-hint">Leave empty to auto-generate from title. Edit manually if the auto-slug is poor.</p>
+      </div>
+
       <div class="writer-hidden-fields">
         {{ form.featured }}
       </div>
@@ -236,24 +245,61 @@
 
   /* ---- Auto-slug from title ---- */
   function slugify(text) {
-    return text.toString().toLowerCase().trim()
+    var m = {
+      'Ṭ': 'T', 'ṭ': 't',
+      'Â': 'A', 'â': 'a',
+      'Ê': 'E', 'ê': 'e',
+      'Î': 'I', 'î': 'i',
+      'Ô': 'O', 'ô': 'o',
+      'Û': 'U', 'û': 'u',
+      'Á': 'A', 'á': 'a',
+      'É': 'E', 'é': 'e',
+      'Í': 'I', 'í': 'i',
+      'Ó': 'O', 'ó': 'o',
+      'Ú': 'U', 'ú': 'u',
+      'À': 'A', 'à': 'a',
+      'È': 'E', 'è': 'e',
+      'Ì': 'I', 'ì': 'i',
+      'Ò': 'O', 'ò': 'o',
+      'Ù': 'U', 'ù': 'u'
+    };
+    return text.toString().replace(/[ṬṭÂâÊêÎîÔôÛûÁáÉéÍíÓóÚúÀàÈèÌìÒòÙù]/g, function(c) { return m[c] || c; })
+      .toLowerCase().trim()
+      .replace(/[^a-z0-9\s-]/g, '')
       .replace(/\s+/g, '-')
-      .replace(/[^\w\-]+/g, '')
       .replace(/\-\-+/g, '-')
       .replace(/^-+/, '')
       .replace(/-+$/, '');
   }
 
-  if (titleField && slugField && !slugField.value) {
+  var slugInput = document.getElementById('id_slug');
+  var slugVisible = document.getElementById('id_slug_visible');
+
+  function syncSlug(value) {
+    if (slugInput) slugInput.value = value;
+    if (slugVisible) slugVisible.value = value;
+  }
+
+  if (titleField) {
     titleField.addEventListener('blur', function() {
-      if (!slugField.value) {
-        slugField.value = slugify(titleField.value);
+      if (slugInput && slugVisible && !slugVisible.dataset.userEdited) {
+        syncSlug(slugify(titleField.value));
       }
     });
     titleField.addEventListener('input', function() {
-      if (!slugField.dataset.userEdited) {
-        slugField.value = slugify(titleField.value);
+      if (slugInput && slugVisible && !slugVisible.dataset.userEdited) {
+        syncSlug(slugify(titleField.value));
       }
+    });
+  }
+
+  if (slugVisible) {
+    slugVisible.addEventListener('input', function() {
+      this.dataset.userEdited = 'true';
+      syncSlug(slugify(this.value));
+    });
+    slugVisible.addEventListener('focus', function() {
+      this.dataset.userEdited = 'true';
     });
   }
 

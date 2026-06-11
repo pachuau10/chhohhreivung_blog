@@ -27,6 +27,7 @@
   ]
 }
 </script>
+
 {% endblock %}
 
 {% block content %}
@@ -64,6 +65,7 @@
                 </span>
               </div>
             </div>
+            <span class="art-estimate">~{{ article.reading_time|add:1 }} min read</span>
           </div>
         </header>
 
@@ -87,14 +89,6 @@
             <button class="art-share-btn art-share-copy" id="artCopyLink" aria-label="Copy link">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
             </button>
-          </div>
-
-          <div class="art-toolbar" id="artToolbar">
-            <div class="art-font-controls" role="group" aria-label="Font size">
-              <button class="art-font-btn active" data-size="default" aria-label="Default font size">A</button>
-              <button class="art-font-btn" data-size="large" aria-label="Large font size">A<sup>+</sup></button>
-              <button class="art-font-btn" data-size="xlarge" aria-label="Extra large font size">A<sup>++</sup></button>
-            </div>
           </div>
 
           <div class="art-body" id="artBody">

@@ -41,6 +41,13 @@ from ckeditor.widgets import CKEditorWidget
 class PostForm(forms.ModelForm):
     content = forms.CharField(widget=CKEditorWidget())
 
+    def clean_slug(self):
+        slug = self.cleaned_data.get("slug", "") or ""
+        if slug:
+            from django.utils.text import slugify
+            return slugify(slug)
+        return slug
+
     class Meta:
         from .models import Article
         model = Article

@@ -413,22 +413,6 @@
             }, { passive: true });
         }
 
-        /* Font Size Toggle */
-        var artBody = document.getElementById('artBody');
-        var artFontBtns = document.querySelectorAll('.art-font-btn');
-        if (artFontBtns.length && artBody) {
-            artFontBtns.forEach(function (btn) {
-                btn.addEventListener('click', function () {
-                    artFontBtns.forEach(function (b) { b.classList.remove('active'); });
-                    this.classList.add('active');
-                    var size = this.getAttribute('data-size');
-                    artBody.classList.remove('font-large', 'font-xlarge');
-                    if (size === 'large') artBody.classList.add('font-large');
-                    if (size === 'xlarge') artBody.classList.add('font-xlarge');
-                });
-            });
-        }
-
         /* Copy Link */
         function setupCopyLink(btnId) {
             var btn = document.getElementById(btnId);
