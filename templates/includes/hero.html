@@ -5,13 +5,12 @@
     <div class="carousel" id="heroCarousel">
       <div class="carousel-track">
         {% for article in hero_articles %}
-        {% with fallback_class="slide-fb-"|add:forloop.counter0|stringformat:"s" %}
         <a href="{{ article.get_absolute_url }}" class="slide">
           <div class="slide-bg">
             {% if article.featured_image %}
             <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
             {% else %}
-            <div class="slide-fallback {{ fallback_class }}">
+            <div class="slide-fallback">
               <div class="slide-fb-pattern"></div>
               <span class="slide-fb-letter">{{ article.title|first }}</span>
             </div>
@@ -31,7 +30,6 @@
             </div>
           </div>
         </a>
-        {% endwith %}
         {% endfor %}
       </div>
 

@@ -367,6 +367,7 @@ input, textarea {
 .slide-bg {
   position: absolute;
   inset: 0;
+  background: var(--bg-secondary);
 }
 
 .slide-bg img {
@@ -383,6 +384,7 @@ input, textarea {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  background: linear-gradient(135deg, #667eea, #764ba2);
 }
 
 .slide-fb-pattern {
@@ -403,16 +405,16 @@ input, textarea {
   line-height: 1;
 }
 
-.slide-fb-0 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-.slide-fb-1 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-.slide-fb-2 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
-.slide-fb-3 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
-.slide-fb-4 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
-.slide-fb-5 { background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); }
-.slide-fb-6 { background: linear-gradient(135deg, #fccb90 0%, #d57eeb 100%); }
-.slide-fb-7 { background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); }
-.slide-fb-8 { background: linear-gradient(135deg, #f5576c 0%, #ff758c 100%); }
-.slide-fb-9 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.slide:nth-child(1) .slide-fallback { background: linear-gradient(135deg, #667eea, #764ba2); }
+.slide:nth-child(2) .slide-fallback { background: linear-gradient(135deg, #f093fb, #f5576c); }
+.slide:nth-child(3) .slide-fallback { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+.slide:nth-child(4) .slide-fallback { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+.slide:nth-child(5) .slide-fallback { background: linear-gradient(135deg, #fa709a, #fee140); }
+.slide:nth-child(6) .slide-fallback { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+.slide:nth-child(7) .slide-fallback { background: linear-gradient(135deg, #fccb90, #d57eeb); }
+.slide:nth-child(8) .slide-fallback { background: linear-gradient(135deg, #e0c3fc, #8ec5fc); }
+.slide:nth-child(9) .slide-fallback { background: linear-gradient(135deg, #f5576c, #ff758c); }
+.slide:nth-child(10) .slide-fallback { background: linear-gradient(135deg, #667eea, #764ba2); }
 
 .slide-overlay {
   position: absolute;
