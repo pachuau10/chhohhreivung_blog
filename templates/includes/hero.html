@@ -3,35 +3,33 @@
 <section class="hero-section">
   <div class="hero-container">
     <div class="carousel" id="heroCarousel">
-      <div class="carousel-track">
-        {% for article in hero_articles %}
-        <a href="{{ article.get_absolute_url }}" class="slide">
-          <div class="slide-bg">
-            {% if article.featured_image %}
-            <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
-            {% else %}
-            <div class="slide-fallback">
-              <div class="slide-fb-pattern"></div>
-              <span class="slide-fb-letter">{{ article.title|first }}</span>
-            </div>
-            {% endif %}
-            <div class="slide-overlay"></div>
+      {% for article in hero_articles %}
+      <a href="{{ article.get_absolute_url }}" class="slide {% if forloop.first %}active{% endif %}">
+        <div class="slide-bg">
+          {% if article.featured_image %}
+          <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+          {% else %}
+          <div class="slide-fallback">
+            <div class="slide-fb-pattern"></div>
+            <span class="slide-fb-letter">{{ article.title|first }}</span>
           </div>
-          <div class="slide-content">
-            <span class="slide-badge">{{ article.category.name }}</span>
-            <h2 class="slide-title">{{ article.title }}</h2>
-            <p class="slide-excerpt">{{ article.excerpt|truncatewords:18 }}</p>
-            <div class="slide-meta">
-              <span>{{ article.author.get_full_name|default:article.author.username }}</span>
-              <span class="meta-sep">·</span>
-              <span>{{ article.published_at|date:"M d, Y" }}</span>
-              <span class="meta-sep">·</span>
-              <span>{{ article.reading_time }} min read</span>
-            </div>
+          {% endif %}
+          <div class="slide-overlay"></div>
+        </div>
+        <div class="slide-content">
+          <span class="slide-badge">{{ article.category.name }}</span>
+          <h2 class="slide-title">{{ article.title }}</h2>
+          <p class="slide-excerpt">{{ article.excerpt|truncatewords:18 }}</p>
+          <div class="slide-meta">
+            <span>{{ article.author.get_full_name|default:article.author.username }}</span>
+            <span class="meta-sep">·</span>
+            <span>{{ article.published_at|date:"M d, Y" }}</span>
+            <span class="meta-sep">·</span>
+            <span>{{ article.reading_time }} min read</span>
           </div>
-        </a>
-        {% endfor %}
-      </div>
+        </div>
+      </a>
+      {% endfor %}
 
       {% if hero_articles|length > 1 %}
       <button class="carousel-arrow carousel-arrow--prev" id="carouselPrev" aria-label="Previous">

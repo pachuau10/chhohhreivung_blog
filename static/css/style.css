@@ -348,20 +348,22 @@ input, textarea {
   box-shadow: 0 2px 12px rgba(0,0,0,0.06);
 }
 
-.carousel-track {
-  display: flex;
-  height: 100%;
-  transition: transform 0.4s ease;
-}
-
 .slide {
-  min-width: 100%;
-  height: 100%;
-  position: relative;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
   color: var(--text-primary);
   text-decoration: none;
   display: block;
-  overflow: hidden;
+  z-index: 1;
+}
+
+.slide.active {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 2;
 }
 
 .slide-bg {
@@ -475,7 +477,6 @@ input, textarea {
 
 .meta-sep { opacity: 0.4; }
 
-/* Arrows */
 .carousel-arrow {
   position: absolute;
   top: 50%;
@@ -502,7 +503,6 @@ input, textarea {
 .carousel-arrow--prev { left: 16px; }
 .carousel-arrow--next { right: 16px; }
 
-/* Dots */
 .carousel-dots {
   position: absolute;
   bottom: 16px;

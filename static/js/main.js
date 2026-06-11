@@ -315,7 +315,6 @@
         ======================================== */
         var carousel = document.getElementById('heroCarousel');
         if (carousel) {
-            var track = carousel.querySelector('.carousel-track');
             var slides = carousel.querySelectorAll('.slide');
             var dots = carousel.querySelectorAll('.dot');
             var prevBtn = document.getElementById('carouselPrev');
@@ -329,7 +328,10 @@
                 if (index < 0) index = total - 1;
                 if (index >= total) index = 0;
                 current = index;
-                track.style.transform = 'translateX(-' + (current * 100) + '%)';
+
+                slides.forEach(function (s, i) {
+                    s.classList.toggle('active', i === current);
+                });
                 dots.forEach(function (d, i) {
                     d.classList.toggle('active', i === current);
                 });
@@ -338,17 +340,12 @@
             function nextSlide() { goTo(current + 1); }
             function prevSlide() { goTo(current - 1); }
 
-            function resetTimer() {
-                clearInterval(timer);
-            }
-
-            if (nextBtn) nextBtn.addEventListener('click', function () { nextSlide(); resetTimer(); });
-            if (prevBtn) prevBtn.addEventListener('click', function () { prevSlide(); resetTimer(); });
+            if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+            if (prevBtn) prevBtn.addEventListener('click', prevSlide);
 
             dots.forEach(function (d) {
                 d.addEventListener('click', function () {
                     goTo(parseInt(this.getAttribute('data-index')));
-                    resetTimer();
                 });
             });
         }
