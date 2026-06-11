@@ -322,7 +322,6 @@
             var nextBtn = document.getElementById('carouselNext');
             var current = 0;
             var total = slides.length;
-            var timer = null;
 
             if (total < 2) return;
 
@@ -341,7 +340,6 @@
 
             function resetTimer() {
                 clearInterval(timer);
-                timer = setInterval(nextSlide, 4000);
             }
 
             if (nextBtn) nextBtn.addEventListener('click', function () { nextSlide(); resetTimer(); });
@@ -353,11 +351,6 @@
                     resetTimer();
                 });
             });
-
-            timer = setInterval(nextSlide, 4000);
-
-            carousel.addEventListener('mouseenter', function () { clearInterval(timer); });
-            carousel.addEventListener('mouseleave', function () { timer = setInterval(nextSlide, 4000); });
         }
 
         /* ========================================
