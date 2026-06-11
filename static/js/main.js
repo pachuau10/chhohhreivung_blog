@@ -315,6 +315,7 @@
         ======================================== */
         var carousel = document.getElementById('heroCarousel');
         if (carousel) {
+            var track = carousel.querySelector('.carousel-track');
             var slides = carousel.querySelectorAll('.slide');
             var dots = carousel.querySelectorAll('.dot');
             var prevBtn = document.getElementById('carouselPrev');
@@ -329,10 +330,7 @@
                 if (index < 0) index = total - 1;
                 if (index >= total) index = 0;
                 current = index;
-
-                slides.forEach(function (s, i) {
-                    s.classList.toggle('active', i === current);
-                });
+                track.style.transform = 'translateX(-' + (current * 100) + '%)';
                 dots.forEach(function (d, i) {
                     d.classList.toggle('active', i === current);
                 });
@@ -343,7 +341,7 @@
 
             function resetTimer() {
                 clearInterval(timer);
-                timer = setInterval(nextSlide, 2500);
+                timer = setInterval(nextSlide, 4000);
             }
 
             if (nextBtn) nextBtn.addEventListener('click', function () { nextSlide(); resetTimer(); });
@@ -356,10 +354,10 @@
                 });
             });
 
-            timer = setInterval(nextSlide, 2500);
+            timer = setInterval(nextSlide, 4000);
 
             carousel.addEventListener('mouseenter', function () { clearInterval(timer); });
-            carousel.addEventListener('mouseleave', function () { timer = setInterval(nextSlide, 2500); });
+            carousel.addEventListener('mouseleave', function () { timer = setInterval(nextSlide, 4000); });
         }
 
         /* ========================================

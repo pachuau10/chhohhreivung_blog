@@ -343,28 +343,25 @@ input, textarea {
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-md);
-  height: 520px;
+  height: 480px;
+}
+
+.carousel-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.4s ease;
 }
 
 .slide {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.5s ease;
+  min-width: 100%;
+  height: 100%;
+  position: relative;
   color: var(--text-primary);
-  z-index: 1;
+  text-decoration: none;
+  display: block;
+  overflow: hidden;
 }
 
-.slide.active {
-  opacity: 1;
-  pointer-events: auto;
-  z-index: 2;
-}
-
-.slide:hover { color: var(--text-primary); }
-
-/* Background */
 .slide-bg {
   position: absolute;
   inset: 0;
@@ -374,10 +371,7 @@ input, textarea {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s ease;
 }
-
-.slide.active .slide-bg img { transform: scale(1.04); }
 
 .slide-fallback {
   width: 100%;
@@ -394,17 +388,16 @@ input, textarea {
 .slide-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 40%, transparent 70%);
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, transparent 75%);
   z-index: 1;
 }
 
-/* Content */
 .slide-content {
   position: absolute;
-  bottom: 40px;
-  left: 40px;
-  max-width: 640px;
-  z-index: 3;
+  bottom: 36px;
+  left: 36px;
+  max-width: 600px;
+  z-index: 2;
   color: #fff;
   padding-right: 80px;
 }
@@ -455,19 +448,23 @@ input, textarea {
 .carousel-arrow {
   position: absolute;
   top: 50%;
-  z-index: 4;
+  z-index: 3;
   transform: translateY(-50%);
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.2);
   backdrop-filter: blur(4px);
   color: #fff;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background 0.2s;
   cursor: pointer;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0;
 }
 
 .carousel-arrow:hover { background: rgba(255,255,255,0.3); }
@@ -478,26 +475,28 @@ input, textarea {
 .carousel-dots {
   position: absolute;
   bottom: 16px;
-  right: 40px;
-  z-index: 4;
+  right: 36px;
+  z-index: 3;
   display: flex;
-  gap: 6px;
+  gap: 8px;
 }
 
 .dot {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: rgba(255,255,255,0.35);
-  transition: all 0.25s;
-  padding: 0;
+  border: none;
   cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  min-height: 10px;
+  min-width: 10px;
+  padding: 0;
 }
 
 .dot.active {
   background: #fff;
-  width: 24px;
-  border-radius: 4px;
+  transform: scale(1.2);
 }
 
 /* ==========================================
@@ -2683,10 +2682,6 @@ input, textarea {
         grid-template-columns: 1fr;
     }
 
-    .hero-container {
-        grid-template-columns: 1fr;
-    }
-
     .carousel {
         height: 450px;
     }
@@ -2700,6 +2695,10 @@ input, textarea {
 
     .slide-title {
         font-size: 1.35rem;
+    }
+
+    .carousel-dots {
+        right: 28px;
     }
 
     .news-row-image {
@@ -3145,11 +3144,6 @@ input, textarea {
     .site-logo .logo-text { font-size: 1rem; }
     .header-actions { gap: 2px; }
 
-    .hero-container {
-        grid-template-columns: 1fr;
-    }
-
-
     .carousel {
         height: 320px;
     }
@@ -3182,8 +3176,6 @@ input, textarea {
     }
 
     .carousel-arrow {
-        width: 30px;
-        height: 30px;
         min-height: 44px;
         min-width: 44px;
     }
@@ -3197,13 +3189,11 @@ input, textarea {
     }
 
     .dot {
-        width: 6px;
-        height: 6px;
         min-height: 10px;
         min-width: 10px;
     }
 
-    .dot.active { width: 18px; }
+    .dot.active { transform: scale(1.3); }
 
     .news-row {
         flex-direction: column;
@@ -3324,13 +3314,25 @@ input, textarea {
         height: 300px;
     }
 
-    .carousel-title {
-        font-size: 0.95rem;
+    .slide-content {
+        bottom: 14px;
+        left: 14px;
+        padding-right: 36px;
     }
 
-    .carousel-cat {
-        font-size: 0.65rem;
+    .slide-title {
+        font-size: 1rem;
+    }
+
+    .slide-badge {
+        font-size: 0.6rem;
         padding: 2px 8px;
+        margin-bottom: 6px;
+    }
+
+    .carousel-dots {
+        right: 14px;
+        gap: 6px;
     }
 
     .popular-card {
@@ -3445,7 +3447,7 @@ input, textarea {
     .header-container { padding: 0 12px; }
     .carousel { height: 280px; }
     .slide-title { font-size: 0.9rem; }
-    .slide-content { bottom: 12px; left: 12px; padding-right: 40px; }
+    .slide-content { bottom: 12px; left: 12px; padding-right: 32px; }
     .news-row-image { height: 160px; }
     .news-row-title { font-size: 0.88rem; }
     body { font-size: 15px; }
