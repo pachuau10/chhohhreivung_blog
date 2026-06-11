@@ -353,6 +353,7 @@ input, textarea {
   pointer-events: none;
   transition: opacity 0.5s ease;
   color: var(--text-primary);
+  z-index: 1;
 }
 
 .slide.active {
