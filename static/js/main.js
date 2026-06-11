@@ -1,12 +1,10 @@
 (function () {
     'use strict';
-    console.log('main.js loaded');
 
     /* ========================================
        DOM Ready
     ======================================== */
     document.addEventListener('DOMContentLoaded', function () {
-        console.log('DOM ready');
 
         /* ========================================
            Theme Toggle
@@ -316,25 +314,23 @@
            Hero Carousel (Fade)
         ======================================== */
         var carousel = document.getElementById('heroCarousel');
-        console.log('carousel element:', carousel);
         if (carousel) {
             var slides = carousel.querySelectorAll('.slide');
             var dots = carousel.querySelectorAll('.dot');
             var prevBtn = document.getElementById('carouselPrev');
             var nextBtn = document.getElementById('carouselNext');
             var current = 0;
-            var total = slides.length;
-            console.log('slides found:', total, 'prevBtn:', !!prevBtn, 'nextBtn:', !!nextBtn, 'dots:', dots.length);
+            var slideCount = slides.length;
 
-            if (total < 2) return;
+            if (slideCount < 2) return;
 
             var timer = null;
 
             function goTo(index) {
-                if (index < 0) index = total - 1;
-                if (index >= total) index = 0;
+                if (index < 0) index = slideCount - 1;
+                if (index >= slideCount) index = 0;
                 current = index;
-                console.log('goTo:', current);
+
                 slides.forEach(function (s, i) {
                     s.classList.toggle('active', i === current);
                 });
@@ -343,26 +339,19 @@
                 });
             }
 
-            function nextSlide() { console.log('nextSlide called'); goTo(current + 1); }
-            function prevSlide() { console.log('prevSlide called'); goTo(current - 1); }
+            function nextSlide() { goTo(current + 1); }
+            function prevSlide() { goTo(current - 1); }
 
             function resetTimer() {
                 clearInterval(timer);
                 timer = setInterval(nextSlide, 2500);
             }
 
-            if (nextBtn) {
-                nextBtn.addEventListener('click', function () { console.log('nextBtn clicked'); nextSlide(); resetTimer(); });
-                console.log('nextBtn handler added');
-            }
-            if (prevBtn) {
-                prevBtn.addEventListener('click', function () { console.log('prevBtn clicked'); prevSlide(); resetTimer(); });
-                console.log('prevBtn handler added');
-            }
+            if (nextBtn) nextBtn.addEventListener('click', function () { nextSlide(); resetTimer(); });
+            if (prevBtn) prevBtn.addEventListener('click', function () { prevSlide(); resetTimer(); });
 
-            dots.forEach(function (d, i) {
+            dots.forEach(function (d) {
                 d.addEventListener('click', function () {
-                    console.log('dot', i, 'clicked');
                     goTo(parseInt(this.getAttribute('data-index')));
                     resetTimer();
                 });
@@ -372,7 +361,6 @@
 
             carousel.addEventListener('mouseenter', function () { clearInterval(timer); });
             carousel.addEventListener('mouseleave', function () { timer = setInterval(nextSlide, 2500); });
-            console.log('carousel init complete, timer started');
         }
 
         /* ========================================
