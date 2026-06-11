@@ -694,15 +694,6 @@ input, textarea {
     color: var(--primary-dark);
 }
 
-.section-rss {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.85rem;
-    color: #f97316;
-    font-weight: 600;
-}
-
 /* --- Articles Grid --- */
     display: grid;
     grid-template-columns: repeat(3, 1fr);
