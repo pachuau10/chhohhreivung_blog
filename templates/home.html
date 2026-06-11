@@ -12,40 +12,16 @@
       <h2 class="section-title">Latest News</h2>
     </div>
 
-    <div class="news-feed" id="newsFeed">
+    <div class="popular-grid" id="newsFeed">
       {% for article in latest_news %}
-      <article class="news-row">
-        <a href="{{ article.get_absolute_url }}" class="news-row-image">
-          {% if article.featured_image %}
-          <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" loading="lazy">
-          {% else %}
-          <div class="news-row-fallback">{{ article.category.name|first }}</div>
-          {% endif %}
-          {% if article.featured %}
-          <span class="news-badge news-badge-featured">Featured</span>
-          {% endif %}
-          {% if article.views > 1000 %}
-          <span class="news-badge news-badge-trending">Trending</span>
-          {% endif %}
-        </a>
-
-        <div class="news-row-content">
-          <span class="news-row-category">{{ article.category.name }}</span>
-          <h2 class="news-row-title">
-            <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
-          </h2>
-          <p class="news-row-excerpt">{{ article.excerpt|truncatechars:140 }}</p>
-          <div class="news-row-meta">
-            <span>{{ article.published_at|date:"M d, Y" }}</span>
-            <span class="meta-sep">·</span>
-            <span>{{ article.reading_time }} min read</span>
-            {% if article.views > 500 %}
-            <span class="meta-sep">·</span>
-            <span>{{ article.views }} views</span>
-            {% endif %}
-          </div>
+      <a href="{{ article.get_absolute_url }}" class="popular-card">
+        <span class="popular-number">{{ forloop.counter|stringformat:"02d" }}</span>
+        <div class="popular-content">
+          <span class="popular-category">{{ article.category.name|default:"Technology" }}</span>
+          <span class="popular-title">{{ article.title }}</span>
+          <span class="popular-date">{{ article.published_at|date:"M d, Y" }} · {{ article.reading_time }} min read</span>
         </div>
-      </article>
+      </a>
       {% empty %}
       <div class="empty-state">
         <p>No articles published yet. Check back soon!</p>
@@ -61,26 +37,6 @@
   </div>
 </section>
 
-<section class="section popular-section">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Popular Articles</h2>
-    </div>
-    <div class="popular-grid">
-      {% for article in popular_articles %}
-      <div class="popular-card">
-        <span class="popular-number">{{ forloop.counter|stringformat:"02d" }}</span>
-        <div class="popular-content">
-          <span class="popular-category">{{ article.category.name|default:"Technology" }}</span>
-          <a href="{{ article.get_absolute_url }}" class="popular-title">{{ article.title }}</a>
-          <span class="popular-date">{{ article.published_at|date:"M d, Y" }} · {{ article.reading_time }} min read</span>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
 {% for cat, cat_articles in category_articles.items %}
 <section class="section category-section">
   <div class="container">
@@ -88,29 +44,16 @@
       <h2 class="section-title">{{ cat.name }}</h2>
       <a href="{% url 'category' cat.slug %}" class="section-link">View All &rarr;</a>
     </div>
-    <div class="news-feed">
+    <div class="popular-grid">
       {% for article in cat_articles %}
-      <article class="news-row">
-        <a href="{{ article.get_absolute_url }}" class="news-row-image">
-          {% if article.featured_image %}
-          <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" loading="lazy">
-          {% else %}
-          <div class="news-row-fallback">{{ article.category.name|first }}</div>
-          {% endif %}
-        </a>
-        <div class="news-row-content">
-          <span class="news-row-category">{{ article.category.name }}</span>
-          <h2 class="news-row-title">
-            <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
-          </h2>
-          <p class="news-row-excerpt">{{ article.excerpt|truncatechars:120 }}</p>
-          <div class="news-row-meta">
-            <span>{{ article.published_at|date:"M d, Y" }}</span>
-            <span class="meta-sep">·</span>
-            <span>{{ article.reading_time }} min read</span>
-          </div>
+      <a href="{{ article.get_absolute_url }}" class="popular-card">
+        <span class="popular-number">{{ forloop.counter|stringformat:"02d" }}</span>
+        <div class="popular-content">
+          <span class="popular-category">{{ article.category.name|default:"Technology" }}</span>
+          <span class="popular-title">{{ article.title }}</span>
+          <span class="popular-date">{{ article.published_at|date:"M d, Y" }} · {{ article.reading_time }} min read</span>
         </div>
-      </article>
+      </a>
       {% endfor %}
     </div>
   </div>
