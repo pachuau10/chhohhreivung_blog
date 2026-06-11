@@ -251,6 +251,17 @@
                     if (themeToggle) themeToggle.click();
                 });
             }
+
+            /* Drawer category toggle */
+            var catToggle = document.getElementById('drawerCategoryToggle');
+            var catList = document.getElementById('drawerCategoryList');
+            if (catToggle && catList) {
+                catToggle.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    catToggle.classList.toggle('open');
+                    catList.classList.toggle('open');
+                });
+            }
         }
 
         /* ========================================

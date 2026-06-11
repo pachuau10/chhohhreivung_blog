@@ -37,6 +37,18 @@
                                 <svg class="drawer-nav-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
                             </a>
                             {% endfor %}
+                            <button class="drawer-nav-item drawer-category-toggle" id="drawerCategoryToggle" aria-label="Toggle categories">
+                                <span class="drawer-nav-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                                </span>
+                                <span class="drawer-nav-text">Categories</span>
+                                <svg class="drawer-nav-chevron drawer-category-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                            </button>
+                            <div class="drawer-category-list" id="drawerCategoryList">
+                                {% for cat in categories %}
+                                <a href="{% url 'category' cat.slug %}" class="drawer-category-item">{{ cat.name }}</a>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
 

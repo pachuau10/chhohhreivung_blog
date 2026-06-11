@@ -15,14 +15,8 @@ NAV_MENU_ICONS = {
 }
 
 
-def get_nav_menu_items(categories, current_path):
-    items = [{"label": "Home", "url": "/", "icon": "🏠", "active": current_path == "/"}]
-    for cat in categories:
-        slug = cat.slug.lower()
-        icon = NAV_MENU_ICONS.get(slug, "📄")
-        active = slug in current_path and current_path != "/"
-        items.append({"label": cat.name, "url": f"/category/{cat.slug}/", "icon": icon, "active": active})
-    return items
+def get_nav_menu_items(current_path):
+    return [{"label": "Home", "url": "/", "icon": "🏠", "active": current_path == "/"}]
 
 
 def site_context(request):
@@ -34,7 +28,7 @@ def site_context(request):
         "site_name": "Chhohreivung",
         "site_description": "Mizo Tech News - Technology news in Mizo language",
         "categories": categories,
-        "nav_menu_items": get_nav_menu_items(categories, request.path),
+        "nav_menu_items": get_nav_menu_items(request.path),
         "trending_articles": trending,
         "latest_sidebar": latest_sidebar,
         "search_form": SearchForm(),
