@@ -344,7 +344,7 @@
 
             function resetTimer() {
                 clearInterval(timer);
-                timer = setInterval(nextSlide, 5000);
+                timer = setInterval(nextSlide, 2500);
             }
 
             if (nextBtn) nextBtn.addEventListener('click', function () { nextSlide(); resetTimer(); });
@@ -357,10 +357,10 @@
                 });
             });
 
-            timer = setInterval(nextSlide, 5000);
+            timer = setInterval(nextSlide, 2500);
 
             carousel.addEventListener('mouseenter', function () { clearInterval(timer); });
-            carousel.addEventListener('mouseleave', function () { timer = setInterval(nextSlide, 5000); });
+            carousel.addEventListener('mouseleave', function () { timer = setInterval(nextSlide, 2500); });
         }
 
         /* ========================================
