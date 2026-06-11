@@ -257,6 +257,21 @@
     });
   }
 
+  /* ---- Auto-excerpt from content ---- */
+  var excerptAutoFill = !excerptField.value.trim();
+  if (excerptField) {
+    excerptField.addEventListener('input', function() {
+      if (this.value.trim()) excerptAutoFill = false;
+    });
+  }
+  function updateExcerpt(html) {
+    if (!excerptField || !excerptAutoFill) return;
+    var txt = html.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
+    if (txt.length > 250) txt = txt.substring(0, 247) + '...';
+    excerptField.value = txt;
+  }
+  try { CKEDITOR && CKEDITOR.instances['id_content'] && CKEDITOR.instances['id_content'].on('change', function() { updateExcerpt(this.getData()); }); } catch(e) {}
+
   /* ---- Featured Image ---- */
   var fileInput = document.getElementById('id_featured_image');
   var featuredCard = document.getElementById('featuredImageCard');
