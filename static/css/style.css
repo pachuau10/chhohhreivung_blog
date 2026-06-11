@@ -745,6 +745,32 @@ input, textarea {
     min-width: 0;
 }
 
+.popular-thumb {
+    width: 72px;
+    height: 56px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    align-self: center;
+    background: var(--bg-secondary);
+}
+.popular-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.popular-thumb-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, var(--secondary), #334155);
+}
+
 .popular-category {
     font-size: 0.65rem;
     font-weight: 600;

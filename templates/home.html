@@ -21,6 +21,13 @@
           <span class="popular-title">{{ article.title }}</span>
           <span class="popular-date">{{ article.published_at|date:"M d, Y" }} · {{ article.reading_time }} min read</span>
         </div>
+        <div class="popular-thumb">
+          {% if article.featured_image %}
+          <img src="{{ article.featured_image.url }}" alt="" loading="lazy">
+          {% else %}
+          <div class="popular-thumb-fallback">{{ article.category.name|first }}</div>
+          {% endif %}
+        </div>
       </a>
       {% empty %}
       <div class="empty-state">
@@ -52,6 +59,13 @@
           <span class="popular-category">{{ article.category.name|default:"Technology" }}</span>
           <span class="popular-title">{{ article.title }}</span>
           <span class="popular-date">{{ article.published_at|date:"M d, Y" }} · {{ article.reading_time }} min read</span>
+        </div>
+        <div class="popular-thumb">
+          {% if article.featured_image %}
+          <img src="{{ article.featured_image.url }}" alt="" loading="lazy">
+          {% else %}
+          <div class="popular-thumb-fallback">{{ article.category.name|first }}</div>
+          {% endif %}
         </div>
       </a>
       {% endfor %}
