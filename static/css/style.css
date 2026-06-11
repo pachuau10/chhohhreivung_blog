@@ -482,24 +482,22 @@ input, textarea {
   top: 50%;
   z-index: 3;
   transform: translateY(-50%);
-  width: 38px;
-  height: 38px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.35);
   backdrop-filter: blur(4px);
   color: #fff;
-  border: none;
+  border: 1px solid rgba(255,255,255,0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background 0.2s;
   cursor: pointer;
-  min-height: 44px;
-  min-width: 44px;
   padding: 0;
 }
 
-.carousel-arrow:hover { background: rgba(255,255,255,0.3); }
+.carousel-arrow:hover { background: rgba(0,0,0,0.55); }
 .carousel-arrow--prev { left: 16px; }
 .carousel-arrow--next { right: 16px; }
 
@@ -3204,11 +3202,6 @@ input, textarea {
         font-size: 0.62rem;
         padding: 3px 10px;
         margin-bottom: 8px;
-    }
-
-    .carousel-arrow {
-        min-height: 44px;
-        min-width: 44px;
     }
 
     .carousel-arrow--prev { left: 6px; }

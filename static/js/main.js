@@ -324,6 +324,8 @@
 
             if (total < 2) return;
 
+            var timer = null;
+
             function goTo(index) {
                 if (index < 0) index = total - 1;
                 if (index >= total) index = 0;
@@ -340,14 +342,25 @@
             function nextSlide() { goTo(current + 1); }
             function prevSlide() { goTo(current - 1); }
 
-            if (nextBtn) nextBtn.addEventListener('click', nextSlide);
-            if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+            function resetTimer() {
+                clearInterval(timer);
+                timer = setInterval(nextSlide, 5000);
+            }
+
+            if (nextBtn) nextBtn.addEventListener('click', function () { nextSlide(); resetTimer(); });
+            if (prevBtn) prevBtn.addEventListener('click', function () { prevSlide(); resetTimer(); });
 
             dots.forEach(function (d) {
                 d.addEventListener('click', function () {
                     goTo(parseInt(this.getAttribute('data-index')));
+                    resetTimer();
                 });
             });
+
+            timer = setInterval(nextSlide, 5000);
+
+            carousel.addEventListener('mouseenter', function () { clearInterval(timer); });
+            carousel.addEventListener('mouseleave', function () { timer = setInterval(nextSlide, 5000); });
         }
 
         /* ========================================
