@@ -786,16 +786,21 @@ input, textarea {
 }
 
 .popular-readmore {
-    font-size: 0.78rem;
-    font-weight: 600;
+    font-size: 0.72rem;
+    font-weight: 700;
     color: var(--primary);
     white-space: nowrap;
-    opacity: 0;
-    transition: opacity 0.2s;
+    border: 1.5px solid var(--primary);
+    border-radius: 4px;
+    padding: 2px 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    transition: all 0.2s;
 }
 
 .popular-card:hover .popular-readmore {
-    opacity: 1;
+    background: var(--primary);
+    color: #fff;
 }
 
 .popular-thumb {
