@@ -181,7 +181,8 @@ def post_writer(request, article_id=None):
             form.save_m2m()
             if 'preview' in request.POST:
                 return redirect(article.get_absolute_url())
-            messages.success(request, "Article saved!")
+            msg = "Article published!" if article.status == "published" else "Draft saved!"
+            messages.success(request, msg)
             return redirect("post_writer_edit", article_id=article.id)
 
     categories = Category.objects.all()
