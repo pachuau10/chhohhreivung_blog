@@ -8,7 +8,7 @@ def robots_view(request):
         "Disallow: /admin/",
         "Disallow: /private/",
         "",
-        f"Sitemap: {request.build_absolute_uri('/sitemap.xml')}",
+        f"Sitemap: {settings.SITE_URL}/sitemap.xml",
         "",
         "User-agent: GPTBot",
         "Disallow: /",

@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.template import loader
+from django.conf import settings
 from django.contrib.sitemaps import Sitemap
 from blog.models import Article, Category, Tag
 
@@ -79,5 +80,5 @@ def sitemap_view(request):
     urls = static_pages + urls
 
     template = loader.get_template("sitemap.xml")
-    xml = template.render({"urls": urls}, request)
+    xml = template.render({"urls": urls, "site_url": settings.SITE_URL}, request)
     return HttpResponse(xml, content_type="application/xml")
