@@ -1,5 +1,5 @@
 from django import template
-from django.utils.html import format_html
+from django.utils.html import format_html, mark_safe
 import re
 
 register = template.Library()
@@ -99,38 +99,42 @@ def article_schema(context, article):
     if not request:
         return ""
 
+    import json
+
     url = request.build_absolute_uri(article.get_absolute_url())
     image_url = ""
     if article.featured_image:
         image_url = request.build_absolute_uri(article.featured_image.url)
 
-    schema = f"""{{
-    "@context": "https://schema.org",
-    "@type": "NewsArticle",
-    "headline": "{article.title}",
-    "description": "{article.excerpt or article.title}",
-    "image": "{image_url}",
-    "datePublished": "{article.published_at.isoformat() if article.published_at else ''}",
-    "dateModified": "{article.updated_at.isoformat()}",
-    "author": {{
-        "@type": "Person",
-        "name": "{article.author.get_full_name() or article.author.username if article.author else 'Chhohreivung'}"
-    }},
-    "publisher": {{
-        "@type": "Organization",
-        "name": "Chhohreivung",
-        "logo": {{
-            "@type": "ImageObject",
-            "url": "{request.build_absolute_uri('/static/images/logo.png')}"
-        }}
-    }},
-    "mainEntityOfPage": {{
-        "@type": "WebPage",
-        "@id": "{url}"
-    }}
-}}"""
-    return format_html(
-        '<script type="application/ld+json">{}</script>', schema
+    schema = {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        "headline": article.title,
+        "description": article.excerpt or article.title,
+        "image": image_url,
+        "datePublished": article.published_at.isoformat() if article.published_at else "",
+        "dateModified": article.updated_at.isoformat(),
+        "author": {
+            "@type": "Person",
+            "name": article.author.get_full_name() or article.author.username if article.author else "Chhohreivung"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Chhohreivung",
+            "logo": {
+                "@type": "ImageObject",
+                "url": request.build_absolute_uri("/static/images/logo.png")
+            }
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": url
+        }
+    }
+    return mark_safe(
+        '<script type="application/ld+json">' +
+        json.dumps(schema, ensure_ascii=False, indent=2) +
+        "</script>"
     )
 
 
@@ -162,33 +166,37 @@ def breadcrumb_schema(context):
         "@type": "BreadcrumbList",
         "itemListElement": items,
     }
-    return format_html(
-        '<script type="application/ld+json">{}</script>',
-        json.dumps(schema, ensure_ascii=False)
+    return mark_safe(
+        '<script type="application/ld+json">' +
+        json.dumps(schema, ensure_ascii=False) +
+        "</script>"
     )
 
 
 @register.simple_tag
 def organization_schema():
-    schema = """{
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Chhohreivung",
-    "url": "https://chhohreivung.com",
-    "logo": "https://chhohreivung.com/static/images/logo.png",
-    "description": "Mizo Tech News - Technology news in Mizo language",
-    "foundingDate": "2024",
-    "contactPoint": {
-        "@type": "ContactPoint",
-        "contactType": "general",
-        "email": "contact@chhohreivung.com"
-    },
-    "sameAs": [
-        "https://facebook.com/chhohreivung",
-        "https://twitter.com/chhohreivung",
-        "https://instagram.com/chhohreivung"
-    ]
-}"""
-    return format_html(
-        '<script type="application/ld+json">{}</script>', schema
+    import json
+    schema = {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Chhohreivung",
+        "url": "https://chhohreivung.com",
+        "logo": "https://chhohreivung.com/static/images/logo.png",
+        "description": "Mizo Tech News - Technology news in Mizo language",
+        "foundingDate": "2024",
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "general",
+            "email": "contact@chhohreivung.com"
+        },
+        "sameAs": [
+            "https://facebook.com/chhohreivung",
+            "https://twitter.com/chhohreivung",
+            "https://instagram.com/chhohreivung"
+        ]
+    }
+    return mark_safe(
+        '<script type="application/ld+json">' +
+        json.dumps(schema, ensure_ascii=False, indent=2) +
+        "</script>"
     )
