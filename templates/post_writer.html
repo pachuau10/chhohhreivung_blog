@@ -20,7 +20,10 @@
     <span class="writer-breadcrumb-sep">›</span>
     <a href="{% url 'admin:index' %}" class="writer-breadcrumb-link">Dashboard</a>
     <span class="writer-breadcrumb-sep">›</span>
+    <a href="{% url 'admin:blog_article_changelist' %}" class="writer-breadcrumb-link">Posts</a>
+    <span class="writer-breadcrumb-sep">›</span>
     <span class="writer-breadcrumb-current">{{ title }}</span>
+    <a href="{% url 'post_writer_new' %}" class="writer-btn writer-btn-ghost writer-btn-new" style="margin-left:12px">+ New Post</a>
   </div>
   <div class="writer-topbar-right">
     {% if article %}
