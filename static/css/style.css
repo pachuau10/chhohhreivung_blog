@@ -773,6 +773,17 @@ input, textarea {
     min-width: 0;
 }
 
+.popular-excerpt {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin: 2px 0 4px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 .popular-thumb {
     width: 72px;
     height: 56px;
