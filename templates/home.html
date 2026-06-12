@@ -15,12 +15,14 @@
     <div class="popular-grid" id="newsFeed">
       {% for article in latest_news %}
       <a href="{{ article.get_absolute_url }}" class="popular-card">
-        <span class="popular-number">{{ forloop.counter|stringformat:"02d" }}</span>
         <div class="popular-content">
           <span class="popular-category">{{ article.category.name|default:"Technology" }}</span>
           <span class="popular-title">{{ article.title }}</span>
           <span class="popular-excerpt">{{ article.excerpt|truncatewords:12 }}</span>
-          <span class="popular-date">{{ article.published_at|date:"M d, Y" }} · {{ article.reading_time }} min read</span>
+          <div class="popular-footer">
+            <span class="popular-date">{{ article.published_at|date:"M d, Y" }} · {{ article.reading_time }} min read</span>
+            <span class="popular-readmore">Read more →</span>
+          </div>
         </div>
         <div class="popular-thumb">
           {% if article.featured_image %}
@@ -55,12 +57,14 @@
     <div class="popular-grid">
       {% for article in cat_articles %}
       <a href="{{ article.get_absolute_url }}" class="popular-card">
-        <span class="popular-number">{{ forloop.counter|stringformat:"02d" }}</span>
         <div class="popular-content">
           <span class="popular-category">{{ article.category.name|default:"Technology" }}</span>
           <span class="popular-title">{{ article.title }}</span>
           <span class="popular-excerpt">{{ article.excerpt|truncatewords:12 }}</span>
-          <span class="popular-date">{{ article.published_at|date:"M d, Y" }} · {{ article.reading_time }} min read</span>
+          <div class="popular-footer">
+            <span class="popular-date">{{ article.published_at|date:"M d, Y" }} · {{ article.reading_time }} min read</span>
+            <span class="popular-readmore">Read more →</span>
+          </div>
         </div>
         <div class="popular-thumb">
           {% if article.featured_image %}

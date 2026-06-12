@@ -745,8 +745,8 @@ input, textarea {
 
 .popular-card {
     display: flex;
-    gap: 12px;
-    padding: 14px;
+    gap: 16px;
+    padding: 18px;
     background: var(--bg-card);
     border-radius: var(--radius-sm);
     border: 1px solid var(--border);
@@ -759,29 +759,43 @@ input, textarea {
     box-shadow: var(--shadow-md);
 }
 
-.popular-number {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--text-tertiary);
-    line-height: 1;
-    flex-shrink: 0;
-    min-width: 30px;
-}
-
 .popular-content {
     flex: 1;
     min-width: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .popular-excerpt {
     font-size: 0.82rem;
     color: var(--text-secondary);
-    line-height: 1.4;
-    margin: 2px 0 4px;
+    line-height: 1.45;
+    margin: 4px 0 8px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
+
+.popular-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    gap: 8px;
+}
+
+.popular-readmore {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--primary);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.popular-card:hover .popular-readmore {
+    opacity: 1;
 }
 
 .popular-thumb {
