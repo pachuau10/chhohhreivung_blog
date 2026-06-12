@@ -286,8 +286,8 @@ input, textarea {
     color: var(--text-primary);
 }
 
-[data-theme="light"] .moon-icon,
-[data-theme="dark"] .sun-icon {
+[data-theme="light"] .sun-icon,
+[data-theme="dark"] .moon-icon {
     display: none;
 }
 
