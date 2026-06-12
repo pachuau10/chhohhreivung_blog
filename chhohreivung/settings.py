@@ -9,12 +9,14 @@ DEBUG = config("DEBUG", default=True, cast=bool)
 ALLOWED_HOSTS = config(
     "DJANGO_ALLOWED_HOSTS", default="localhost,127.0.0.1,.vercel.app,chhohhreivung.vercel.app", cast=Csv()
 )
+ALLOWED_HOSTS += [".vercel.app", "chhohhreivung.vercel.app"]
 
 CSRF_TRUSTED_ORIGINS = config(
     "CSRF_TRUSTED_ORIGINS",
     default="http://localhost:8000,http://127.0.0.1:8000,https://chhohhreivung.vercel.app",
     cast=Csv(),
 )
+CSRF_TRUSTED_ORIGINS += ["https://*.vercel.app"]
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SESSION_COOKIE_SECURE = not DEBUG
