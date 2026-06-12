@@ -14,12 +14,12 @@
 <div class="writer-topbar">
   <div class="writer-topbar-left">
     <a href="/" class="writer-topbar-brand">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       Chhohreivung
     </a>
-    <svg class="writer-breadcrumb-sep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    <span class="writer-breadcrumb-sep">›</span>
     <a href="{% url 'admin:index' %}" class="writer-breadcrumb-link">Dashboard</a>
-    <svg class="writer-breadcrumb-sep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    <span class="writer-breadcrumb-sep">›</span>
     <span class="writer-breadcrumb-current">{{ title }}</span>
   </div>
   <div class="writer-topbar-right">
@@ -32,7 +32,7 @@
       Preview
     </a>
     {% endif %}
-    <button type="button" class="writer-btn writer-btn-secondary" id="saveDraftBtn">Save Draft</button>
+    <button type="button" class="writer-btn writer-btn-secondary" id="saveDraftBtn">Save draft</button>
     <button type="button" class="writer-btn writer-btn-primary" id="publishBtn">Publish</button>
   </div>
 </div>
@@ -49,10 +49,10 @@
 
     {% if form.errors %}
       <div class="writer-alert writer-alert-error">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         <div>
-          <strong>Please fix the following errors:</strong>
-          <ul style="margin:4px 0 0;padding-left:18px;font-size:13px">
+          <strong>Please fix these errors:</strong>
+          <ul style="margin:4px 0 0;padding-left:16px;font-size:12.5px">
           {% for field, errors in form.errors.items %}
             <li>{{ field|title }}: {{ errors.0 }}</li>
           {% endfor %}
@@ -67,12 +67,12 @@
       <input type="hidden" name="slug" id="id_slug" value="{{ form.slug.value|default:'' }}">
 
       <div class="writer-field-group writer-slug-group">
-        <label class="writer-label-sm">URL Slug</label>
+        <label class="writer-label-sm">URL slug</label>
         <div class="writer-slug-preview">
           <span class="writer-slug-base">{{ request.get_host }}/news/</span>
-          <input type="text" id="id_slug_visible" class="writer-input writer-slug-input" value="{{ form.slug.value|default:'' }}" placeholder="auto-generated-from-title">
+          <input type="text" id="id_slug_visible" class="writer-slug-input" value="{{ form.slug.value|default:'' }}" placeholder="auto-generated-from-title">
         </div>
-        <p class="writer-field-hint">Leave empty to auto-generate from title. Edit manually if the auto-slug is poor.</p>
+        <p class="writer-field-hint">Leave empty to auto-generate from title. Edit manually if needed.</p>
       </div>
 
       <div class="writer-hidden-fields">
@@ -82,14 +82,14 @@
       <div class="writer-field-group">
         {{ form.title }}
         {% if form.title.errors %}
-          <div style="color:#EF4444;font-size:0.8125rem;margin-top:4px;">{{ form.title.errors.0 }}</div>
+          <div style="color:#ef4444;font-size:0.8rem;margin-top:4px;">{{ form.title.errors.0 }}</div>
         {% endif %}
       </div>
 
       <div class="writer-field-group">
         {{ form.excerpt }}
         {% if form.excerpt.errors %}
-          <div style="color:#EF4444;font-size:0.8125rem;margin-top:4px;">{{ form.excerpt.errors.0 }}</div>
+          <div style="color:#ef4444;font-size:0.8rem;margin-top:4px;">{{ form.excerpt.errors.0 }}</div>
         {% endif %}
       </div>
 
@@ -104,7 +104,7 @@
         <div class="writer-featured-preview" id="featuredPreview" style="display:none">
           <img src="" alt="Featured image preview" id="featuredPreviewImg">
           <button type="button" class="writer-featured-remove" id="removeFeaturedBtn">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             Remove
           </button>
         </div>
@@ -113,9 +113,10 @@
       <div class="writer-content-wrap">
         {{ form.content }}
         {% if form.content.errors %}
-          <div style="color:#EF4444;font-size:0.8125rem;margin-top:8px;">{{ form.content.errors.0 }}</div>
+          <div style="color:#ef4444;font-size:0.8rem;padding:8px 14px;">{{ form.content.errors.0 }}</div>
         {% endif %}
       </div>
+    </form>
   </div>
 
   <aside class="writer-sidebar">
@@ -166,12 +167,14 @@
       </div>
       <div class="writer-card-body">
         <div class="writer-field-group">
-          <label class="writer-label-sm">Meta Title</label>
+          <label class="writer-label-sm">Meta title</label>
           {{ form.meta_title }}
+          <div class="writer-seo-counter"><span class="writer-counter" id="metaTitleCount">0 / 60</span></div>
         </div>
         <div class="writer-field-group">
-          <label class="writer-label-sm">Meta Description</label>
+          <label class="writer-label-sm">Meta description</label>
           {{ form.meta_description }}
+          <div class="writer-seo-counter"><span class="writer-counter" id="metaDescCount">0 / 160</span></div>
         </div>
         <div class="writer-field-group" style="margin-bottom:0">
           <label class="writer-label-sm">Keywords</label>
@@ -187,7 +190,7 @@
       </div>
       <div class="writer-card-body">
         <a href="{{ article.get_absolute_url }}" target="_blank" class="writer-view-link">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           View published article
         </a>
       </div>
@@ -196,10 +199,8 @@
   </aside>
 </div>
 
-</form>
-
 <div class="writer-mobile-bar">
-  <button type="button" class="writer-btn writer-btn-secondary" id="mobileDraftBtn">Save Draft</button>
+  <button type="button" class="writer-btn writer-btn-secondary" id="mobileDraftBtn">Save draft</button>
   <button type="button" class="writer-btn writer-btn-primary" id="mobilePublishBtn">Publish</button>
 </div>
 {% endblock %}
@@ -209,102 +210,73 @@
 (function() {
   'use strict';
 
-  /* ---- refs ---- */
-  var form = document.getElementById('postForm');
+  /* ── refs ── */
+  var form        = document.getElementById('postForm');
   var statusField = document.getElementById('{{ form.status.id_for_label }}');
-  var slugField = document.getElementById('id_slug');
-  var titleField = document.getElementById('{{ form.title.id_for_label }}');
-  var excerptField = document.getElementById('{{ form.excerpt.id_for_label }}');
-  var statusSelect = document.getElementById('statusSelect');
-  var saveDraftBtn = document.getElementById('saveDraftBtn');
-  var publishBtn = document.getElementById('publishBtn');
+  var slugField   = document.getElementById('id_slug');
+  var slugVisible = document.getElementById('id_slug_visible');
+  var titleField  = document.getElementById('{{ form.title.id_for_label }}');
+  var excerptField= document.getElementById('{{ form.excerpt.id_for_label }}');
+  var statusSelect= document.getElementById('statusSelect');
 
-  /* ---- Status ---- */
+  /* ── status sync ── */
   if (statusSelect && statusField) {
     statusSelect.addEventListener('change', function() {
       statusField.value = this.value;
     });
   }
 
-  /* ---- Save / Publish buttons ---- */
+  /* ── submit helpers ── */
   function submitWithStatus(status) {
     if (statusField) statusField.value = status;
     form.submit();
   }
 
-  if (saveDraftBtn) {
-    saveDraftBtn.addEventListener('click', function() {
-      submitWithStatus('draft');
-    });
-  }
-  if (publishBtn) {
-    publishBtn.addEventListener('click', function() {
-      submitWithStatus('published');
-    });
-  }
+  document.getElementById('saveDraftBtn')   .addEventListener('click', function() { submitWithStatus('draft'); });
+  document.getElementById('publishBtn')     .addEventListener('click', function() { submitWithStatus('published'); });
+  document.getElementById('mobileDraftBtn') .addEventListener('click', function() { submitWithStatus('draft'); });
+  document.getElementById('mobilePublishBtn').addEventListener('click',function() { submitWithStatus('published'); });
 
-  /* ---- Auto-slug from title ---- */
+  /* ── slugify ── */
   function slugify(text) {
     var m = {
-      'Ṭ': 'T', 'ṭ': 't',
-      'Â': 'A', 'â': 'a',
-      'Ê': 'E', 'ê': 'e',
-      'Î': 'I', 'î': 'i',
-      'Ô': 'O', 'ô': 'o',
-      'Û': 'U', 'û': 'u',
-      'Á': 'A', 'á': 'a',
-      'É': 'E', 'é': 'e',
-      'Í': 'I', 'í': 'i',
-      'Ó': 'O', 'ó': 'o',
-      'Ú': 'U', 'ú': 'u',
-      'À': 'A', 'à': 'a',
-      'È': 'E', 'è': 'e',
-      'Ì': 'I', 'ì': 'i',
-      'Ò': 'O', 'ò': 'o',
-      'Ù': 'U', 'ù': 'u'
+      'Ṭ':'T','ṭ':'t','Â':'A','â':'a','Ê':'E','ê':'e','Î':'I','î':'i',
+      'Ô':'O','ô':'o','Û':'U','û':'u','Á':'A','á':'a','É':'E','é':'e',
+      'Í':'I','í':'i','Ó':'O','ó':'o','Ú':'U','ú':'u','À':'A','à':'a',
+      'È':'E','è':'e','Ì':'I','ì':'i','Ò':'O','ò':'o','Ù':'U','ù':'u'
     };
-    return text.toString().replace(/[ṬṭÂâÊêÎîÔôÛûÁáÉéÍíÓóÚúÀàÈèÌìÒòÙù]/g, function(c) { return m[c] || c; })
+    return text.toString()
+      .replace(/[ṬṭÂâÊêÎîÔôÛûÁáÉéÍíÓóÚúÀàÈèÌìÒòÙù]/g, function(c){ return m[c]||c; })
       .toLowerCase().trim()
-      .replace(/[^a-z0-9\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/\-\-+/g, '-')
-      .replace(/^-+/, '')
-      .replace(/-+$/, '');
+      .replace(/[^a-z0-9\s-]/g,'')
+      .replace(/\s+/g,'-')
+      .replace(/--+/g,'-')
+      .replace(/^-+|-+$/g,'');
   }
 
-  var slugInput = document.getElementById('id_slug');
-  var slugVisible = document.getElementById('id_slug_visible');
-
   function syncSlug(value) {
-    if (slugInput) slugInput.value = value;
+    if (slugField)   slugField.value   = value;
     if (slugVisible) slugVisible.value = value;
   }
 
   if (titleField) {
-    titleField.addEventListener('blur', function() {
-      if (slugInput && slugVisible && !slugVisible.dataset.userEdited) {
-        syncSlug(slugify(titleField.value));
-      }
-    });
     titleField.addEventListener('input', function() {
-      if (slugInput && slugVisible && !slugVisible.dataset.userEdited) {
-        syncSlug(slugify(titleField.value));
-      }
+      if (!slugVisible.dataset.userEdited) syncSlug(slugify(this.value));
+    });
+    titleField.addEventListener('blur', function() {
+      if (!slugVisible.dataset.userEdited) syncSlug(slugify(this.value));
     });
   }
-
   if (slugVisible) {
+    slugVisible.addEventListener('focus', function() { this.dataset.userEdited = 'true'; });
     slugVisible.addEventListener('input', function() {
       this.dataset.userEdited = 'true';
       syncSlug(slugify(this.value));
     });
-    slugVisible.addEventListener('focus', function() {
-      this.dataset.userEdited = 'true';
-    });
   }
 
-  /* ---- Auto-excerpt from content ---- */
-  var excerptAutoFill = !excerptField.value.trim();
+  /* ── auto-excerpt from CKEditor ── */
+  var excerptAutoFill = excerptField && !excerptField.value.trim();
   if (excerptField) {
     excerptField.addEventListener('input', function() {
       if (this.value.trim()) excerptAutoFill = false;
@@ -312,19 +284,23 @@
   }
   function updateExcerpt(html) {
     if (!excerptField || !excerptAutoFill) return;
-    var txt = html.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
-    if (txt.length > 250) txt = txt.substring(0, 247) + '...';
+    var txt = html.replace(/<[^>]*>/g,'').replace(/&nbsp;/g,' ').replace(/\s+/g,' ').trim();
+    if (txt.length > 250) txt = txt.substring(0, 247) + '…';
     excerptField.value = txt;
   }
-  try { CKEDITOR && CKEDITOR.instances['id_content'] && CKEDITOR.instances['id_content'].on('change', function() { updateExcerpt(this.getData()); }); } catch(e) {}
+  try {
+    if (CKEDITOR && CKEDITOR.instances['id_content']) {
+      CKEDITOR.instances['id_content'].on('change', function() { updateExcerpt(this.getData()); });
+    }
+  } catch(e) {}
 
-  /* ---- Featured Image ---- */
-  var fileInput = document.getElementById('id_featured_image');
-  var featuredCard = document.getElementById('featuredImageCard');
+  /* ── featured image ── */
+  var fileInput        = document.getElementById('id_featured_image');
+  var featuredCard     = document.getElementById('featuredImageCard');
   var featuredPlaceholder = document.getElementById('featuredPlaceholder');
-  var featuredPreview = document.getElementById('featuredPreview');
+  var featuredPreview  = document.getElementById('featuredPreview');
   var featuredPreviewImg = document.getElementById('featuredPreviewImg');
-  var removeFeaturedBtn = document.getElementById('removeFeaturedBtn');
+  var removeFeaturedBtn= document.getElementById('removeFeaturedBtn');
 
   {% if article and article.featured_image %}
     featuredPlaceholder.style.display = 'none';
@@ -332,39 +308,28 @@
     featuredPreviewImg.src = '{{ article.featured_image.url }}';
   {% endif %}
 
-  if (featuredCard) {
-    featuredCard.addEventListener('click', function(e) {
-      if (e.target === removeFeaturedBtn || removeFeaturedBtn.contains(e.target)) return;
-      fileInput.click();
-    });
-  }
-
-  if (featuredCard) {
-    featuredCard.addEventListener('dragover', function(e) {
-      e.preventDefault();
-      featuredCard.classList.add('dragover');
-    });
-    featuredCard.addEventListener('dragleave', function() {
-      featuredCard.classList.remove('dragover');
-    });
-    featuredCard.addEventListener('drop', function(e) {
-      e.preventDefault();
-      featuredCard.classList.remove('dragover');
-      if (e.dataTransfer.files.length) {
-        fileInput.files = e.dataTransfer.files;
-        showPreview(e.dataTransfer.files[0]);
-      }
-    });
-  }
-
-  if (fileInput) {
-    fileInput.addEventListener('change', function() {
-      if (this.files && this.files[0]) {
-        showPreview(this.files[0]);
-      }
-    });
-  }
-
+  featuredCard.addEventListener('click', function(e) {
+    if (removeFeaturedBtn.contains(e.target)) return;
+    fileInput.click();
+  });
+  featuredCard.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    featuredCard.classList.add('dragover');
+  });
+  featuredCard.addEventListener('dragleave', function() {
+    featuredCard.classList.remove('dragover');
+  });
+  featuredCard.addEventListener('drop', function(e) {
+    e.preventDefault();
+    featuredCard.classList.remove('dragover');
+    if (e.dataTransfer.files.length) {
+      fileInput.files = e.dataTransfer.files;
+      showPreview(e.dataTransfer.files[0]);
+    }
+  });
+  fileInput.addEventListener('change', function() {
+    if (this.files && this.files[0]) showPreview(this.files[0]);
+  });
   function showPreview(file) {
     var reader = new FileReader();
     reader.onload = function(e) {
@@ -374,51 +339,54 @@
     };
     reader.readAsDataURL(file);
   }
+  removeFeaturedBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    fileInput.value = '';
+    featuredPreview.style.display = 'none';
+    featuredPlaceholder.style.display = 'flex';
+    featuredPreviewImg.src = '';
+  });
 
-  if (removeFeaturedBtn) {
-    removeFeaturedBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      fileInput.value = '';
-      featuredPreview.style.display = 'none';
-      featuredPlaceholder.style.display = 'flex';
-      featuredPreviewImg.src = '';
-    });
+  /* ── SEO character counters ── */
+  function wireCounter(inputId, max, counterId) {
+    var el = document.getElementById(inputId);
+    var counter = document.getElementById(counterId);
+    if (!el || !counter) return;
+    function update() {
+      var len = el.value.length;
+      counter.textContent = len + ' / ' + max;
+      counter.className = 'writer-counter' + (
+        len > max          ? ' error'   :
+        len > max * 0.9    ? ' warning' :
+        len > 10           ? ' optimal' : ''
+      );
+    }
+    el.addEventListener('input', update);
+    update();
   }
+  wireCounter('{{ form.meta_title.id_for_label }}',       60,  'metaTitleCount');
+  wireCounter('{{ form.meta_description.id_for_label }}', 160, 'metaDescCount');
 
-  /* ---- Mobile accordion sidebar ---- */
-  if (window.innerWidth < 1024) {
-    var cards = document.querySelectorAll('.writer-card');
-    cards.forEach(function(card) {
-      var header = card.querySelector('.writer-card-header');
-      var body = card.querySelector('.writer-card-body');
-      if (header && body) {
-        header.classList.add('active');
-        header.addEventListener('click', function() {
-          body.classList.toggle('collapsed');
-          header.classList.toggle('active');
-        });
-      }
-    });
-  }
-
-  /* ---- Mobile buttons ---- */
-  var mobileDraftBtn = document.getElementById('mobileDraftBtn');
-  var mobilePublishBtn = document.getElementById('mobilePublishBtn');
-  if (mobileDraftBtn) {
-    mobileDraftBtn.addEventListener('click', function() { submitWithStatus('draft'); });
-  }
-  if (mobilePublishBtn) {
-    mobilePublishBtn.addEventListener('click', function() { submitWithStatus('published'); });
-  }
-
-
-
-  /* ---- Featured toggle ---- */
+  /* ── featured toggle ── */
   var featuredToggle = document.getElementById('featuredToggle');
-  var featuredField = document.querySelector('[name="featured"]');
+  var featuredField  = document.querySelector('[name="featured"]');
   if (featuredToggle && featuredField) {
     featuredToggle.addEventListener('change', function() {
       featuredField.checked = this.checked;
+    });
+  }
+
+  /* ── mobile sidebar accordion ── */
+  if (window.innerWidth < 1024) {
+    document.querySelectorAll('.writer-card').forEach(function(card) {
+      var header = card.querySelector('.writer-card-header');
+      var body   = card.querySelector('.writer-card-body');
+      if (!header || !body) return;
+      header.classList.add('active');
+      header.addEventListener('click', function() {
+        body.classList.toggle('collapsed');
+        header.classList.toggle('active');
+      });
     });
   }
 
