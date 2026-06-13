@@ -70,7 +70,7 @@ def og_tags(context, article=None):
                 image_url = request.build_absolute_uri(raw)
     else:
         title = (context.get("meta_title") or "Chhohreivung - Mizo Tech News").strip()
-        description = (context.get("meta_description") or "Latest technology news in Mizo language").strip()
+        description = (context.get("meta_description") or "Chhohreivung hi Mizoṭawnga Technology News chhiar theihna website a ni.").strip()
         url = request.build_absolute_uri(request.path)
         image_url = default_image
 
@@ -195,7 +195,7 @@ def organization_schema():
         "name": "Chhohreivung",
         "url": "https://chhohreivung.com",
         "logo": "https://chhohreivung.com/static/images/logo.png",
-        "description": "Mizo Tech News - Technology news in Mizo language",
+        "description": "Chhohreivung hi Mizoṭawnga Technology News chhiar theihna website a ni.",
         "foundingDate": "2024",
         "contactPoint": {
             "@type": "ContactPoint",
