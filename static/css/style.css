@@ -201,8 +201,8 @@ input, textarea {
 }
 
 .logo-img {
-    width: 36px;
-    height: 36px;
+    width: 42px;
+    height: 42px;
     object-fit: contain;
     border-radius: var(--radius-sm);
 }
@@ -2835,8 +2835,8 @@ input, textarea {
     }
 
     .drawer-logo-img {
-        width: 32px;
-        height: 32px;
+        width: 38px;
+        height: 38px;
         object-fit: contain;
         border-radius: 8px;
         flex-shrink: 0;
