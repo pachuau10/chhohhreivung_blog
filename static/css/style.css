@@ -200,17 +200,11 @@ input, textarea {
     color: var(--text-primary);
 }
 
-.logo-icon {
+.logo-img {
     width: 36px;
     height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--primary);
-    color: #fff;
+    object-fit: contain;
     border-radius: var(--radius-sm);
-    font-size: 1.1rem;
-    font-weight: 800;
 }
 
 .logo-text {
@@ -2840,16 +2834,10 @@ input, textarea {
         text-decoration: none;
     }
 
-    .drawer-logo-icon {
+    .drawer-logo-img {
         width: 32px;
         height: 32px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, var(--primary), #6366f1);
-        color: #fff;
-        font-size: 0.95rem;
-        font-weight: 800;
+        object-fit: contain;
         border-radius: 8px;
         flex-shrink: 0;
     }
