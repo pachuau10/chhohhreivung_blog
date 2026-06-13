@@ -50,47 +50,55 @@ def og_tags(context, article=None):
     if not request:
         return ""
 
-    default_image = request.build_absolute_uri(
-        context.get("STATIC_URL", "/static/") + "og_image.png"
-    )
+    static_url = context.get("STATIC_URL", "/static/")
+    default_image = request.build_absolute_uri(static_url + "og_image.png")
 
     if article:
-        title = article.meta_title or article.title
-        description = article.meta_description or article.excerpt or article.title
+        title = (article.meta_title or article.title).strip()
+        description = (article.meta_description or article.excerpt or article.title).strip()
         url = request.build_absolute_uri(article.get_absolute_url())
-        image = default_image
+        image_url = default_image
         if article.featured_image:
-            image = request.build_absolute_uri(article.featured_image.url)
+            raw = article.featured_image.url
+            image_url = raw if raw.startswith("http") else request.build_absolute_uri(raw)
     else:
-        title = context.get("meta_title", "Chhohreivung - Mizo Tech News")
-        description = context.get(
-            "meta_description", "Latest technology news in Mizo language"
-        )
+        title = (context.get("meta_title") or "Chhohreivung - Mizo Tech News").strip()
+        description = (context.get("meta_description") or "Latest technology news in Mizo language").strip()
         url = request.build_absolute_uri(request.path)
-        image = default_image
+        image_url = default_image
 
-    tags = f"""
-    <meta property="og:title" content="{title}" />
-    <meta property="og:description" content="{description}" />
-    <meta property="og:url" content="{url}" />
-    <meta property="og:type" content="{"article" if article else "website"}" />
-    <meta property="og:site_name" content="Chhohreivung" />
-    <meta property="og:locale" content="en_US" />
-    """
-    if image:
-        tags += f'<meta property="og:image" content="{image}" />\n'
-        tags += f'<meta property="og:image:width" content="1200" />\n'
-        tags += f'<meta property="og:image:height" content="630" />\n'
+    from django.utils.html import escape
+    e_title = escape(title)
+    e_desc = escape(description)
+    e_url = escape(url)
+    e_image = escape(image_url) if image_url else ""
+    og_type = "article" if article else "website"
 
-    tags += f"""
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="{title}" />
-    <meta name="twitter:description" content="{description}" />
-    """
-    if image:
-        tags += f'<meta name="twitter:image" content="{image}" />\n'
+    tags = (
+        f'<meta property="og:title" content="{e_title}" />\n'
+        f'<meta property="og:description" content="{e_desc}" />\n'
+        f'<meta property="og:url" content="{e_url}" />\n'
+        f'<meta property="og:type" content="{og_type}" />\n'
+        f'<meta property="og:site_name" content="Chhohreivung" />\n'
+        f'<meta property="og:locale" content="en_US" />\n'
+    )
+    if image_url:
+        tags += (
+            f'<meta property="og:image" content="{e_image}" />\n'
+            f'<meta property="og:image:width" content="1200" />\n'
+            f'<meta property="og:image:height" content="630" />\n'
+            f'<meta property="og:image:alt" content="{e_title}" />\n'
+        )
 
-    return format_html(tags)
+    tags += (
+        f'<meta name="twitter:card" content="summary_large_image" />\n'
+        f'<meta name="twitter:title" content="{e_title}" />\n'
+        f'<meta name="twitter:description" content="{e_desc}" />\n'
+    )
+    if image_url:
+        tags += f'<meta name="twitter:image" content="{e_image}" />\n'
+
+    return mark_safe(tags)
 
 
 @register.simple_tag(takes_context=True)
