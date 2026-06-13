@@ -20,7 +20,7 @@ def get_nav_menu_items(current_path):
 
 
 def site_context(request):
-    categories = Category.objects.all()
+    categories = Category.objects.exclude(name="Cloud Computing")
     trending = Article.objects.defer("content", "meta_title", "meta_description", "meta_keywords").filter(status="published").order_by("-views")[:5]
     latest_sidebar = Article.objects.defer("content", "meta_title", "meta_description", "meta_keywords").filter(status="published").order_by("-published_at")[:5]
 
