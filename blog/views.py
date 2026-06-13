@@ -18,10 +18,10 @@ def home(request):
     featured = base_qs.filter(featured=True).first()
     latest = base_qs.order_by("-published_at")[:12]
     popular = base_qs.order_by("-views")[:6]
-    categories = Category.objects.all()
+    categories = Category.objects.filter(name__in=["AI", "Apple", "Cybersecurity", "Science", "Tutorial"])
 
     category_articles = {}
-    for cat in categories[:6]:
+    for cat in categories:
         articles = base_qs.filter(category=cat).order_by("-published_at")[:4]
         if articles:
             category_articles[cat] = articles
