@@ -929,6 +929,7 @@ input, textarea {
 .art-share-x:hover { background: #000; }
 .art-share-li:hover { background: #0A66C2; }
 .art-share-copy:hover { background: var(--primary); }
+.art-share-wa:hover { background: #25D366; }
 
 /* Body — Premium Reading Experience */
 .art-body {
