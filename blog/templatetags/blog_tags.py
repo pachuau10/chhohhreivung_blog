@@ -65,7 +65,7 @@ def og_tags(context, article=None):
                 if "cloudinary" in raw:
                     if "." not in raw.rsplit("/", 1)[-1]:
                         image_url = raw + ".jpg"
-                    image_url = image_url.replace("/upload/", "/upload/f_auto,q_auto,w_1200/")
+                    image_url = image_url.replace("/upload/", "/upload/f_jpg,q_auto,w_1200/")
             else:
                 image_url = request.build_absolute_uri(raw)
     else:
