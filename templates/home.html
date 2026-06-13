@@ -18,7 +18,7 @@
         <div class="popular-content">
           <span class="popular-category">{{ article.category.name|default:"Technology" }}</span>
           <span class="popular-title">{{ article.title }}</span>
-          <span class="popular-excerpt">{{ article.excerpt|truncatewords:10 }}</span>
+          <span class="popular-excerpt">{{ article.excerpt|default:article.content|striptags|truncatewords:10 }}</span>
           <span class="popular-readmore">read more</span>
           <div class="popular-footer">
             <span class="popular-date">{{ article.published_at|date:"M d, Y" }} · {{ article.reading_time }} min read</span>
@@ -60,7 +60,7 @@
         <div class="popular-content">
           <span class="popular-category">{{ article.category.name|default:"Technology" }}</span>
           <span class="popular-title">{{ article.title }}</span>
-          <span class="popular-excerpt">{{ article.excerpt|truncatewords:10 }}</span>
+          <span class="popular-excerpt">{{ article.excerpt|default:article.content|striptags|truncatewords:10 }}</span>
           <span class="popular-readmore">read more</span>
           <div class="popular-footer">
             <span class="popular-date">{{ article.published_at|date:"M d, Y" }} · {{ article.reading_time }} min read</span>
