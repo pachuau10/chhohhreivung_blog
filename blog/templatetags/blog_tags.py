@@ -60,7 +60,12 @@ def og_tags(context, article=None):
         image_url = default_image
         if article.featured_image:
             raw = article.featured_image.url
-            image_url = raw if raw.startswith("http") else request.build_absolute_uri(raw)
+            if raw.startswith("http"):
+                image_url = raw
+                if "cloudinary" in raw and "." not in raw.rsplit("/", 1)[-1]:
+                    image_url = raw + ".jpg"
+            else:
+                image_url = request.build_absolute_uri(raw)
     else:
         title = (context.get("meta_title") or "Chhohreivung - Mizo Tech News").strip()
         description = (context.get("meta_description") or "Latest technology news in Mizo language").strip()
@@ -85,8 +90,6 @@ def og_tags(context, article=None):
     if image_url:
         tags += (
             f'<meta property="og:image" content="{e_image}" />\n'
-            f'<meta property="og:image:width" content="1200" />\n'
-            f'<meta property="og:image:height" content="630" />\n'
             f'<meta property="og:image:alt" content="{e_title}" />\n'
         )
 
