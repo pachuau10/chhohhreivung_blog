@@ -120,7 +120,7 @@
 
             <ul class="nav-list" id="desktopNavList">
                 <li class="nav-item"><a href="/" class="nav-link {% if current_path == '/' %}active{% endif %}">Home</a></li>
-                {% for cat in categories|slice:":6" %}
+                {% for cat in categories|slice:":10" %}
                 <li class="nav-item">
                     <a href="{% url 'category' cat.slug %}" class="nav-link {% if cat.slug in current_path %}active{% endif %}">{{ cat.name }}</a>
                 </li>
