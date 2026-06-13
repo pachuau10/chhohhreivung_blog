@@ -62,8 +62,10 @@ def og_tags(context, article=None):
             raw = article.featured_image.url
             if raw.startswith("http"):
                 image_url = raw
-                if "cloudinary" in raw and "." not in raw.rsplit("/", 1)[-1]:
-                    image_url = raw + ".jpg"
+                if "cloudinary" in raw:
+                    if "." not in raw.rsplit("/", 1)[-1]:
+                        image_url = raw + ".jpg"
+                    image_url = image_url.replace("/upload/", "/upload/f_auto,q_auto,w_1200/")
             else:
                 image_url = request.build_absolute_uri(raw)
     else:
