@@ -28,6 +28,7 @@ def site_context(request):
         "site_name": "Chhohreivung",
         "site_description": "Chhohreivung hi Mizoṭawnga Technology News chhiar theihna website a ni. Technology chanchinthar ber ber te rawn hria in rawn chhiar ve ta che.",
         "categories": categories,
+        "all_categories": Category.objects.all(),
         "nav_menu_items": get_nav_menu_items(request.path),
         "trending_articles": trending,
         "latest_sidebar": latest_sidebar,

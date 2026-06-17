@@ -21,7 +21,7 @@
             <div class="footer-col">
                 <h3 class="footer-heading">Categories</h3>
                 <ul class="footer-links">
-                    {% for cat in categories|slice:":8" %}
+                    {% for cat in all_categories %}
                     <li><a href="{% url 'category' cat.slug %}">{{ cat.name }}</a></li>
                     {% endfor %}
                 </ul>

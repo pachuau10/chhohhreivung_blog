@@ -45,7 +45,7 @@
                                 <svg class="drawer-nav-chevron drawer-category-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
                             </button>
                             <div class="drawer-category-list" id="drawerCategoryList">
-                                {% for cat in categories %}
+                                {% for cat in all_categories %}
                                 <a href="{% url 'category' cat.slug %}" class="drawer-category-item">{{ cat.name }}</a>
                                 {% endfor %}
                             </div>
